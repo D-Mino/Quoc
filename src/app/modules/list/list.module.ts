@@ -10,8 +10,7 @@ import { ListService } from './list.service';
 
 import { ListComponent } from './list.component';
 import { FormlyCommonsModule } from '../../common/formly/formly.module';
-import { EntryModule } from '../entry/entry.module';
-import { DialogService } from './dialog/dialog-service.service';
+import { AddIpComponent } from './add-ip/add-ip.component';
 
 @NgModule({
   imports: [
@@ -20,13 +19,13 @@ import { DialogService } from './dialog/dialog-service.service';
     FormlyCommonsModule,
     CommonModule,
     FormsModule,
-    ListRouter,
-    EntryModule
+    ListRouter
   ],
   declarations: [
-    ListComponent
+    ListComponent,
+    AddIpComponent
   ],
-  entryComponents: [],
-  providers: [ListService, DialogService]
+  entryComponents: [AddIpComponent],
+  providers: [ListService]
 })
 export class ListModule {}
