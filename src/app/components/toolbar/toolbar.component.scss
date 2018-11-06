@@ -1,0 +1,30 @@
+@import '../../../scss/theme.scss';
+@import '../../../scss/var.scss';
+
+mat-toolbar {
+  height: $toolbar;
+  min-height: $toolbar;
+
+  mat-toolbar-row {
+    padding-right: 0.5rem;
+    .title {
+      max-width: 86%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .toolbar-spacer {
+      flex: 1 1 auto;
+    }
+    .toolbar-icon {
+      padding: 0 14px;
+    }
+
+    &.has-back {
+      padding-left: 0.5rem;
+      .title {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}

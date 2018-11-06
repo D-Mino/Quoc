@@ -1,0 +1,30 @@
+<app-toolbar></app-toolbar>
+
+<mat-sidenav-container class="example-container">
+  <mat-sidenav class="sidenav" #sidenav mode="side" opened>
+    <mat-list>
+      <mat-list-item *ngFor="let computer of computers">
+        <mat-icon mat-list-icon>computer</mat-icon>
+        <h4 mat-line>{{ computer.name }}</h4>
+        <p mat-line> {{ computer.ip }} </p>
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="screen">
+      <div class="pc">
+        <iframe src="http://192.168.1.5:8080" frameborder="0"></iframe>
+      </div>
+      <div class="pc">
+        <iframe src="http://192.168.1.6:8080" frameborder="0"></iframe>
+      </div>
+      <div class="pc">
+        <iframe src="http://192.168.1.7:8080" frameborder="0"></iframe>
+      </div>
+      <div class="pc">
+        <iframe src="http://192.168.1.8:8080" frameborder="0"></iframe>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

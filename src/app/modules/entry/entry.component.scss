@@ -1,0 +1,16 @@
+@import '../../../scss/var';
+@import '../../../scss/theme';
+
+form {
+  margin-top: 0.5rem;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  button + button {
+    margin-left: 1rem;
+  }
+}

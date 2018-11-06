@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>{{toolbar.title}}</span>
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>add</mat-icon>
+        <span>Add IP</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>search</mat-icon>
+        <span>Scan IP</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>power_settings_new</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>

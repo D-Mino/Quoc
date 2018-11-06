@@ -1,0 +1,27 @@
+a,
+button {
+  &.mat-raised-button,
+  &.mat-stroked-button,
+  &.mat-flat-button,
+  &.mat-button {
+    font-size: 1rem !important;
+    line-height: 3rem;
+    min-height: 3rem;
+    text-transform: uppercase;
+    padding: 0 2rem;
+    border-radius: $border-radius;
+  }
+  &[button-small] {
+    line-height: 2.6rem;
+    min-height: 2.6rem;
+    padding: 0 1.5rem;
+  }
+  &[button-block] {
+    width: 100%;
+  }
+  &[button-fab] {
+    position: fixed;
+    right: $padding;
+    bottom: $padding;
+  }
+}

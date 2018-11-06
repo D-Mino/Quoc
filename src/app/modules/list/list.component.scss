@@ -1,0 +1,41 @@
+@import '../../../scss/var';
+@import '../../../scss/theme';
+
+mat-sidenav-container {
+  width: 100%;
+  height: calc(100% - 56px);
+  position: relative;
+  
+  .sidenav {
+    width: 200px;
+
+    mat-list {
+      padding: 0;
+      margin: 0;
+    }
+  }
+  
+  mat-sidenav-content {
+    overflow-y: hidden;
+
+    .screen {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+
+      .pc {
+        width: 50%;
+        height: 50%;
+        background-color: darkslategrey;
+        border: 1px solid #fff;
+
+        iframe {
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+

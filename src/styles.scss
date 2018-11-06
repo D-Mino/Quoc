@@ -1,0 +1,75 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'scss/reset';
+@import 'scss/theme';
+@import 'scss/var';
+@import 'scss/buttons';
+@import 'scss/forms';
+@import 'scss/notification';
+
+.content {
+  padding: 1rem;
+}
+
+mat-progress-bar {
+  &.mat-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 10px;
+    z-index: 1;
+  }
+
+  .mat-progress-bar-buffer {
+    background: #fff;
+  }
+}
+mat-paginator {
+  .mat-paginator-container {
+    padding: 0 1rem;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+}
+
+.search {
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid $grey-medium;
+  .mat-form-field-wrapper {
+    padding: 0.25rem 1rem 0.25rem 1rem;
+  }
+  .mat-form-field-underline {
+    display: none;
+  }
+  .mat-form-field-flex {
+    align-items: center;
+  }
+  .mat-form-field-infix {
+    border: none;
+    padding-left: 0.5rem;
+  }
+  mat-form-field {
+    width: 100%;
+    mat-icon {
+      font-size: 20px;
+    }
+  }
+  button {
+    margin-left: 16px;
+  }
+}
+
+mat-dialog-container {
+  .mat-dialog-title {
+    margin-bottom: 0.75rem;
+  }
+
+  .mat-dialog-actions {
+    margin-bottom: -0.5rem !important;
+  }
+}
+
+.mat-autocomplete-panel .mat-option-text,
+.staff-names input {
+  text-transform: capitalize;
+}

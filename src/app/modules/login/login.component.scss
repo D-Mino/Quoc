@@ -1,0 +1,57 @@
+.login {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: black;
+
+  form {
+    width: 90%;
+    max-width: 300px;
+    margin-top: 2rem;
+
+    button {
+      margin-top: 1rem;
+    }
+
+    input {
+      color: white;
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        transition: background-color 9000s ease-in-out 0s;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+    }
+
+    .mat-form-field-underline {
+      background-color: #fff;
+    }
+
+    .mat-input-placeholder {
+      color: #fff;
+    }
+
+    .mat-form-field-label {
+      color: white;
+      background: black;
+    }
+
+    .mat-form-field-required-marker {
+      color: initial;
+    }
+
+    .mat-form-field.mat-focused {
+      .mat-form-field-label {
+        color: #fff;
+      }
+    }
+  }
+}
