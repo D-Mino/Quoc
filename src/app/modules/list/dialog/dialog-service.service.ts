@@ -11,16 +11,6 @@ export class DialogService {
     private _list: ListService,
   ) {}
 
-  public openEntryDialog() {
-    this.open(EntryComponent, {
-      data: {
-        isMaster: this._list.isMaster,
-        nameList: this.nameList(this._list.logs),
-        success: () => this._list.get()
-      }
-    }, (result) => {});
-  }
-
   private open(component, options, success) {
     const dialogRef = this._dialog.open(component, Object.assign({
       width: '80%',
@@ -33,15 +23,6 @@ export class DialogService {
         success(result);
       }
     });
-  }
-
-  private UK(date) {
-    const pattern = /^(\d{2}\/\d{2}\/\d{4})$/;
-    if (!pattern.test(date)) {
-      date = date.format('DD/MM/YYYY');
-    }
-
-    return date;
   }
 
   private nameList(list) {
