@@ -42,7 +42,7 @@ export class ApiService {
 
     this.showLoading();
 
-    return this._http.get(this.url + endpoint, options)
+    return this._http.get(this.setUrl(endpoint), options)
       .pipe(
         map((response: any) => {
           this.showLoading(false);
@@ -81,7 +81,7 @@ export class ApiService {
 
     this.showLoading();
 
-    return this._http.post(this.url + endpoint, dataSet.toString(), options)
+    return this._http.post(this.setUrl(endpoint), dataSet.toString(), options)
       .pipe(
         map((response: any) => {
           this.showLoading(false);
@@ -113,7 +113,7 @@ export class ApiService {
 
     this.showLoading();
 
-    return this._http.put(this.url + endpoint, dataSet.toString(), options)
+    return this._http.put(this.setUrl(endpoint), dataSet.toString(), options)
       .pipe(
         map((response: any) => {
           this.showLoading(false);
@@ -140,7 +140,7 @@ export class ApiService {
 
     this.showLoading();
 
-    return this._http.delete(this.url + endpoint, options)
+    return this._http.delete(this.setUrl(endpoint), options)
       .pipe(
         map((response: any) => {
           this.showLoading(false);
@@ -152,6 +152,14 @@ export class ApiService {
           throw err;
         }))
       );
+  }
+
+  private setUrl(endpoint: string) {
+    if (endpoint.includes('http://')) {
+      return endpoint;
+    }
+
+    return this.url + endpoint;
   }
 
   private showLoading(load: boolean = true) {

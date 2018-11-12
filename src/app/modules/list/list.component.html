@@ -1,7 +1,7 @@
 <app-toolbar></app-toolbar>
 
 <mat-sidenav-container class="example-container">
-  <mat-sidenav class="sidenav" #sidenav mode="side" [opened]="_list.computers.length > 0">
+  <mat-sidenav class="sidenav" #sidenav mode="side" opened>
     <mat-list>
       <mat-list-item *ngFor="let computer of _list.computers" [class.selected]="computer.fullScreen || _list.computers.length === 1" (click)="computer.fullScreen = true; _list.removeFullScreen(computer.ip)">
         <mat-icon mat-list-icon>computer</mat-icon>
@@ -12,8 +12,8 @@
   </mat-sidenav>
 
   <mat-sidenav-content [class.full-screen]="_list.computers.length === 1 || _list.isFull()">
-    <img *ngIf="_list.computers.length === 0" src="assets/img/so-do.jpg" alt="">
-    <div *ngIf="_list.computers.length > 0" class="screen">
+    <!-- <img *ngIf="_list.computers.length === 0" src="assets/img/so-do.jpg" alt=""> -->
+    <div class="screen">
       <div *ngFor="let pc of _list.computers" [class.pc]="!pc.fullScreen && _list.computers.length > 1" [class.pc-full]="pc.fullScreen || _list.computers.length === 1">
         <mat-toolbar color="accent">
           <mat-toolbar-row>
@@ -38,7 +38,12 @@
               </mat-menu>
           </mat-toolbar-row>
         </mat-toolbar>
-        <iframe [src]="pc.api" frameborder="0"></iframe>
+        <div class="loading" *ngIf="!pc.success">
+          <mat-spinner *ngIf="pc.connecting"></mat-spinner>
+          <h2 class="mat-title" *ngIf="!pc.connecting">Can not the connect to {{ pc.ip }}</h2>
+          <button mat-raised-button *ngIf="!pc.connecting" color="primary">Reconnect</button>
+        </div>
+        <iframe *ngIf="pc.success" [src]="pc.api" frameborder="0"></iframe>
       </div>
     </div>
   </mat-sidenav-content>

@@ -42,16 +42,39 @@ export class ListService {
         return this._notify.error('The IP address already exists');
       }
 
+      this.removeFullScreen('');
       this.computers.push({
         name: result.name,
         ip: result.ip,
         host: result.host,
         api: this.getUrl(result.ip, result.host),
-        fullScreen: false
+        fullScreen: true,
+        success: false,
+        connecting: true
       });
 
-      this.removeFullScreen('');
+      this.connect(this.computers[this.computers.length - 1]);
     });
+  }
+
+  public connect(pc) {
+    this._api.get(`http://${pc.ip}:${pc.host}/`).subscribe(response => {
+      this.loadByKey(pc);
+    }, err => pc.connecting = false);
+  }
+
+  public loadByKey(pc) {
+    this._api.post(`http://${pc.ip}:${pc.host}/loadByKey`, {
+      key: 'anonymous'
+    }).subscribe(response => {
+      this.saveByKey(pc);
+    }, err => pc.connecting = false);
+  }
+
+  public saveByKey(pc) {
+    this._api.post(`http://${pc.ip}:${pc.host}/saveByKey`, this.options()).subscribe(response => {
+      pc.success = true;
+    }, err => pc.connecting = false);
   }
 
   public delete(ip) {
@@ -75,7 +98,7 @@ export class ListService {
   }
 
   private getUrl(ip, host) {
-    const url = `http://${ip}:${host}/vnc/`;
+    const url = `http://${ip}:${host}/vnc`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
@@ -91,5 +114,80 @@ export class ListService {
         success(result);
       }
     });
+  }
+
+  private options() {
+    return {
+      'key': 'anonymous',
+      'data': {
+        'features': {
+          'vnc': true,
+          'rdp': true,
+          'ft': true
+        },
+        'newWindow': false,
+        'defaultConnType': 'none',
+        'tabVisible': true,
+        'screenSharing': {
+          'resolution': 'remote',
+          'bpp': '16',
+          'imageQuality': '1',
+          'controlMode': true,
+          'wscompression': true,
+          'relativeTouch': true,
+          'touchDragDelay': '75',
+          'dragDist': '32'
+        },
+        'remoteDesktop': {
+          'resolution': '1920x1200',
+          'bpp': '16',
+          'imageQuality': '3',
+          'veautoscaling': false,
+          'enableTouchRedirection': false,
+          'enableRemoteFx': false,
+          'vedesktopbackground': false,
+          'vemnuwndanimation': false,
+          'vevisualstyles': true,
+          'vefontsmoothing': false,
+          'veshowwndcontent': false,
+          'vedesktopcomposition': false,
+          'unicodekeyb': true,
+          'console': false,
+          'keyboardLayout': '1033',
+          'disableNLA': false,
+          'wscompression': true,
+          'relativeTouch': true,
+          'dragDist': '32',
+          'touchDragDelay': '75',
+          'askForCredentials': true,
+          'username': '',
+          'userpwd': '',
+          'prnenabled': false,
+          'prnsetasdefault': false,
+          'prnname': 'Printer',
+          'prnOptions': ['Printer'],
+          'prndriver': 'HP Color LaserJet 8500 PS',
+          'prndriverOptions': [
+            'HP Color LaserJet 8500 PS',
+            'HP Color LaserJet 2800 Series PS',
+            'HP Color LaserJet 2700 PS Class Driver',
+            'Microsoft XPS Document Writer V4'
+          ],
+          'rsenabled': false,
+          'rsquality': '1',
+          'startprogram': '0',
+          'appargs': '',
+          'program': '',
+          'directory': '',
+          'showOnStart': false
+        },
+        'fileTransfer': {
+          'askForCredentials': true,
+          'username': '',
+          'userpwd': ''
+        },
+        'connectionType': 'vnc'
+      }
+    };
   }
 }
