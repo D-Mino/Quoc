@@ -43,7 +43,7 @@
           <h2 class="mat-title" *ngIf="!pc.connecting">Can not the connect to {{ pc.ip }}</h2>
           <button mat-raised-button *ngIf="!pc.connecting" color="primary">Reconnect</button>
         </div>
-        <iframe *ngIf="pc.success" [src]="pc.api" frameborder="0"></iframe>
+        <iframe [id]="pc.ip" *ngIf="pc.success" [src]="pc.api" frameborder="0" (load)="_list.load(pc)"></iframe>
       </div>
     </div>
   </mat-sidenav-content>

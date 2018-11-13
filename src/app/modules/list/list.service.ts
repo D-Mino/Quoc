@@ -59,22 +59,16 @@ export class ListService {
 
   public connect(pc) {
     this._api.get(`http://${pc.ip}:${pc.host}/`).subscribe(response => {
-      this.loadByKey(pc);
-    }, err => pc.connecting = false);
-  }
-
-  public loadByKey(pc) {
-    this._api.post(`http://${pc.ip}:${pc.host}/loadByKey`, {
-      key: 'anonymous'
-    }).subscribe(response => {
-      this.saveByKey(pc);
-    }, err => pc.connecting = false);
-  }
-
-  public saveByKey(pc) {
-    this._api.post(`http://${pc.ip}:${pc.host}/saveByKey`, this.options()).subscribe(response => {
       pc.success = true;
     }, err => pc.connecting = false);
+  }
+
+  public load(pc) {
+    const iframe = document.getElementById(pc.ip);
+    const iframeWin = iframe['contentWindow'] || iframe;
+    const iframeDoc = iframe['contentDocument'] || iframeWin.document;
+
+    iframeDoc.write('\<script>alert("hello from iframe!");\<\/script>');
   }
 
   public delete(ip) {
@@ -98,7 +92,7 @@ export class ListService {
   }
 
   private getUrl(ip, host) {
-    const url = `http://${ip}:${host}/vnc`;
+    const url = `http://${ip}:${host}/`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
