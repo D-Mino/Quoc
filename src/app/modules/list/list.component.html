@@ -17,7 +17,7 @@
       <div *ngFor="let pc of _list.computers" [class.pc]="!pc.fullScreen && _list.computers.length > 1" [class.pc-full]="pc.fullScreen || _list.computers.length === 1">
         <mat-toolbar color="accent">
           <mat-toolbar-row>
-            <span>{{ pc.ip }}</span>
+            <span>{{ pc.ip }}: {{ pc.name }}</span>
             <span class="toolbar-spacer"></span>
             <button mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
@@ -38,12 +38,13 @@
               </mat-menu>
           </mat-toolbar-row>
         </mat-toolbar>
-        <div class="loading" *ngIf="!pc.success">
+        <div class="loading" *ngIf="!pc.success || !pc.vnc">
           <mat-spinner *ngIf="pc.connecting"></mat-spinner>
           <h2 class="mat-title" *ngIf="!pc.connecting">Can not the connect to {{ pc.ip }}</h2>
-          <button mat-raised-button *ngIf="!pc.connecting" color="primary">Reconnect</button>
+          <button mat-raised-button *ngIf="!pc.connecting" color="primary" (click)="_list.reConnect(pc)">Reconnect</button>
         </div>
-        <iframe [id]="pc.ip" *ngIf="pc.success" [src]="pc.api" frameborder="0" (load)="_list.load(pc)"></iframe>
+        <iframe [class.hide]="!pc.vnc" [id]="pc.ip" *ngIf="pc.success" [src]="pc.api" frameborder="0" (load)="_list.load(pc)">
+        </iframe>
       </div>
     </div>
   </mat-sidenav-content>

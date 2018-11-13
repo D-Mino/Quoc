@@ -80,6 +80,10 @@ mat-sidenav-container {
         justify-content: center;
       }
 
+      .hide {
+        display: none;
+      }
+
       mat-toolbar {
         min-height: 46px !important;
 

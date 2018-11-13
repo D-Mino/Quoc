@@ -31,7 +31,34 @@ export class ListService {
   ) { }
 
   public init(contr) {
-    this.computers = [];
+    this.computers = [
+      {
+        name: 'Quoc Tran',
+        ip: '192.168.1.3',
+        host: '8080',
+        api: this.getUrl('192.168.1.3', '8080'),
+        fullScreen: false,
+        success: false,
+        connecting: true,
+        home: false,
+        vnc: false
+      },
+      {
+        name: 'Truong vuong',
+        ip: '192.168.1.4',
+        host: '8080',
+        api: this.getUrl('192.168.1.4', '8080'),
+        fullScreen: false,
+        success: false,
+        connecting: true,
+        home: false,
+        vnc: false
+      }
+    ];
+
+    this.computers.forEach(pc => {
+      this.connect(pc);
+    });
   }
 
   public destroy() {}
@@ -50,7 +77,9 @@ export class ListService {
         api: this.getUrl(result.ip, result.host),
         fullScreen: true,
         success: false,
-        connecting: true
+        connecting: true,
+        home: false,
+        vnc: false
       });
 
       this.connect(this.computers[this.computers.length - 1]);
@@ -63,12 +92,22 @@ export class ListService {
     }, err => pc.connecting = false);
   }
 
-  public load(pc) {
-    const iframe = document.getElementById(pc.ip);
-    const iframeWin = iframe['contentWindow'] || iframe;
-    const iframeDoc = iframe['contentDocument'] || iframeWin.document;
+  public reConnect(pc) {
+    pc.success = false;
+    pc.connecting = true;
+    this._api.get(`http://${pc.ip}:${pc.host}/`).subscribe(response => {
+      pc.success = true;
+    }, err => pc.connecting = false);
+  }
 
-    iframeDoc.write('\<script>alert("hello from iframe!");\<\/script>');
+  public load(pc) {
+    setTimeout(() => {
+      if (!pc.home) {
+        pc.home = true;
+      } else {
+        pc.vnc = true;
+      }
+    }, pc.home ? 1000 : 0);
   }
 
   public delete(ip) {
@@ -108,80 +147,5 @@ export class ListService {
         success(result);
       }
     });
-  }
-
-  private options() {
-    return {
-      'key': 'anonymous',
-      'data': {
-        'features': {
-          'vnc': true,
-          'rdp': true,
-          'ft': true
-        },
-        'newWindow': false,
-        'defaultConnType': 'none',
-        'tabVisible': true,
-        'screenSharing': {
-          'resolution': 'remote',
-          'bpp': '16',
-          'imageQuality': '1',
-          'controlMode': true,
-          'wscompression': true,
-          'relativeTouch': true,
-          'touchDragDelay': '75',
-          'dragDist': '32'
-        },
-        'remoteDesktop': {
-          'resolution': '1920x1200',
-          'bpp': '16',
-          'imageQuality': '3',
-          'veautoscaling': false,
-          'enableTouchRedirection': false,
-          'enableRemoteFx': false,
-          'vedesktopbackground': false,
-          'vemnuwndanimation': false,
-          'vevisualstyles': true,
-          'vefontsmoothing': false,
-          'veshowwndcontent': false,
-          'vedesktopcomposition': false,
-          'unicodekeyb': true,
-          'console': false,
-          'keyboardLayout': '1033',
-          'disableNLA': false,
-          'wscompression': true,
-          'relativeTouch': true,
-          'dragDist': '32',
-          'touchDragDelay': '75',
-          'askForCredentials': true,
-          'username': '',
-          'userpwd': '',
-          'prnenabled': false,
-          'prnsetasdefault': false,
-          'prnname': 'Printer',
-          'prnOptions': ['Printer'],
-          'prndriver': 'HP Color LaserJet 8500 PS',
-          'prndriverOptions': [
-            'HP Color LaserJet 8500 PS',
-            'HP Color LaserJet 2800 Series PS',
-            'HP Color LaserJet 2700 PS Class Driver',
-            'Microsoft XPS Document Writer V4'
-          ],
-          'rsenabled': false,
-          'rsquality': '1',
-          'startprogram': '0',
-          'appargs': '',
-          'program': '',
-          'directory': '',
-          'showOnStart': false
-        },
-        'fileTransfer': {
-          'askForCredentials': true,
-          'username': '',
-          'userpwd': ''
-        },
-        'connectionType': 'vnc'
-      }
-    };
   }
 }
