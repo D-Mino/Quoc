@@ -21,10 +21,8 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._list.init(this);
+    this._list.init();
   }
 
-  ngOnDestroy() {
-    this._list.destroy();
-  }
+  ngOnDestroy() {}
 }

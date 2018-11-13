@@ -11,6 +11,7 @@ import { ListService } from './list.service';
 import { ListComponent } from './list.component';
 import { FormlyCommonsModule } from '../../common/formly/formly.module';
 import { AddIpComponent } from './add-ip/add-ip.component';
+import { DiagramComponent } from './diagram/diagram.component';
 
 @NgModule({
   imports: [
@@ -23,9 +24,13 @@ import { AddIpComponent } from './add-ip/add-ip.component';
   ],
   declarations: [
     ListComponent,
-    AddIpComponent
+    AddIpComponent,
+    DiagramComponent
   ],
-  entryComponents: [AddIpComponent],
+  entryComponents: [
+    AddIpComponent,
+    DiagramComponent
+  ],
   providers: [ListService]
 })
 export class ListModule {}

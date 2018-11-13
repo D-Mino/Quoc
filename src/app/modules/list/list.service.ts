@@ -6,6 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AddIpComponent } from './add-ip/add-ip.component';
 import { DialogComponent } from '@components/dialog/dialog.component';
 import { NotificationService } from '@services/notification.service';
+import { DiagramComponent } from './diagram/diagram.component';
 
 export interface Log {
   id: string;
@@ -30,7 +31,7 @@ export class ListService {
     private sanitizer: DomSanitizer
   ) { }
 
-  public init(contr) {
+  public init() {
     this.computers = [
       {
         name: 'Quoc Tran',
@@ -40,6 +41,7 @@ export class ListService {
         fullScreen: false,
         success: false,
         connecting: true,
+        disconnect: false,
         home: false,
         vnc: false
       },
@@ -51,6 +53,31 @@ export class ListService {
         fullScreen: false,
         success: false,
         connecting: true,
+        disconnect: false,
+        home: false,
+        vnc: false
+      },
+      {
+        name: 'Bao Loc',
+        ip: '192.168.1.5',
+        host: '8080',
+        api: this.getUrl('192.168.1.4', '8080'),
+        fullScreen: false,
+        success: false,
+        connecting: true,
+        disconnect: false,
+        home: false,
+        vnc: false
+      },
+      {
+        name: 'Computer 09',
+        ip: '192.168.1.6',
+        host: '8080',
+        api: this.getUrl('192.168.1.4', '8080'),
+        fullScreen: false,
+        success: false,
+        connecting: true,
+        disconnect: false,
         home: false,
         vnc: false
       }
@@ -60,8 +87,6 @@ export class ListService {
       this.connect(pc);
     });
   }
-
-  public destroy() {}
 
   public addIP() {
     this.open(AddIpComponent, {}, (result) => {
@@ -78,6 +103,7 @@ export class ListService {
         fullScreen: true,
         success: false,
         connecting: true,
+        disconnect: false,
         home: false,
         vnc: false
       });
@@ -92,12 +118,21 @@ export class ListService {
     }, err => pc.connecting = false);
   }
 
-  public reConnect(pc) {
+  public reconnect(pc) {
     pc.success = false;
     pc.connecting = true;
+    pc.disconnect = false;
     this._api.get(`http://${pc.ip}:${pc.host}/`).subscribe(response => {
       pc.success = true;
     }, err => pc.connecting = false);
+  }
+
+  public disconnect(pc) {
+    pc.success = false;
+    pc.connecting = false;
+    pc.disconnect = true,
+    pc.home = false;
+    pc.vnc = false;
   }
 
   public load(pc) {
@@ -128,6 +163,12 @@ export class ListService {
 
   public isFull() {
     return this.computers.findIndex(c => c.fullScreen) !== -1;
+  }
+
+  public diagram() {
+    this.open(DiagramComponent, {
+      maxWidth: '70%',
+    }, () => {});
   }
 
   private getUrl(ip, host) {
