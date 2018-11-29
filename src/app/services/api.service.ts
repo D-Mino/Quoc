@@ -12,10 +12,12 @@ import { NotificationService } from './notification.service';
 export class ApiService {
   public isLoading = false;
   public url: string;
-  public token = '';
+  public token: any;
+  public user: any;
 
   constructor(public _http: Http, public _storage: StorageService, public _notify: NotificationService) {
     this.token = this._storage.get('token') || '';
+    this.user = this._storage.get('user') || {};
     this.env();
   }
 
@@ -155,7 +157,7 @@ export class ApiService {
   }
 
   private setUrl(endpoint: string) {
-    if (endpoint.includes('http://')) {
+    if (endpoint.includes('http')) {
       return endpoint;
     }
 

@@ -2,11 +2,11 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 
 export const loginFields: FormlyFieldConfig[] = [
   {
-    key: 'username',
+    key: 'email',
     type: 'input',
     templateOptions: {
       type: 'text',
-      label: 'Username',
+      label: 'Email',
       required: true
     }
   },

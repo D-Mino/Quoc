@@ -1,8 +1,8 @@
 const hostname = window.location.hostname;
 
-const local = 'http://localhost/stam/vnc-api';
-const test = 'http://localhost/stam/vnc-api';
-const live = 'http://localhost/stam/vnc-api';
+const local = 'https://motell.baoloc.fun/api';
+const test = 'https://motell.baoloc.fun/api';
+const live = 'https://motell.baoloc.fun/api';
 
 const api = url => `${url}/`;
 

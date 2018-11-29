@@ -8,19 +8,10 @@ import { DialogComponent } from '@components/dialog/dialog.component';
 import { NotificationService } from '@services/notification.service';
 import { DiagramComponent } from './diagram/diagram.component';
 
-export interface Log {
-  id: string;
-  name: string;
-  logged_time: string;
-  occurrence: string;
-  outcome: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })
 export class ListService {
-
   public computers: any[];
 
   constructor(
@@ -29,7 +20,7 @@ export class ListService {
     private _notify: NotificationService,
     private _dialog: MatDialog,
     private sanitizer: DomSanitizer
-  ) { }
+  ) {}
 
   public init() {
     this.computers = [
@@ -59,9 +50,9 @@ export class ListService {
       },
       {
         name: 'Bao Loc',
-        ip: '192.168.1.5',
+        ip: '192.168.1.143',
         host: '8080',
-        api: this.getUrl('192.168.1.4', '8080'),
+        api: this.getUrl('192.168.1.143', '8080'),
         fullScreen: false,
         success: false,
         connecting: true,
@@ -83,70 +74,88 @@ export class ListService {
       }
     ];
 
-    this.computers.forEach(pc => {
-      this.connect(pc);
+    this.computers = [];
+    this._api.get('getip/user/' + this._api.user.id).subscribe(response => {
+      this.computers = response.data;
+      this.computers.forEach(pc => {
+        this.connect(pc);
+      });
     });
   }
 
   public addIP() {
-    this.open(AddIpComponent, {}, (result) => {
+    this.open(AddIpComponent, {}, result => {
       if (this.computers.findIndex(c => c.ip === result.ip) !== -1) {
         return this._notify.error('The IP address already exists');
       }
 
       this.removeFullScreen('');
-      this.computers.push({
+      this._api.post('addIP', {
         name: result.name,
         ip: result.ip,
         host: result.host,
-        api: this.getUrl(result.ip, result.host),
-        fullScreen: true,
-        success: false,
-        connecting: true,
-        disconnect: false,
-        home: false,
-        vnc: false
-      });
-
-      this.connect(this.computers[this.computers.length - 1]);
+        protocol: 'http'
+      }).subscribe(response => {
+        this.computers.push({
+          name: result.name,
+          ip: result.ip,
+          host: result.host,
+          api: this.getUrl(result.ip, result.host),
+          fullScreen: true,
+          success: false,
+          connecting: true,
+          disconnect: false,
+          home: false,
+          vnc: false
+        });
+        this.connect(this.computers[this.computers.length - 1]);
+      }, err => this._notify.error(err.name));
     });
   }
 
   public connect(pc) {
-    this._api.get(`http://${pc.ip}:${pc.host}/`).subscribe(response => {
-      pc.success = true;
-    }, err => pc.connecting = false);
+    this._api.get(`http://${pc.ip}:${pc.host}/`).subscribe(
+      response => {
+        pc.success = true;
+      },
+      err => (pc.connecting = false)
+    );
   }
 
   public reconnect(pc) {
     pc.success = false;
     pc.connecting = true;
     pc.disconnect = false;
-    this._api.get(`http://${pc.ip}:${pc.host}/`).subscribe(response => {
-      pc.success = true;
-    }, err => pc.connecting = false);
+    this._api.get(`http://${pc.ip}:${pc.host}/`).subscribe(
+      response => {
+        pc.success = true;
+      },
+      err => (pc.connecting = false)
+    );
   }
 
   public disconnect(pc) {
     pc.success = false;
     pc.connecting = false;
-    pc.disconnect = true,
-    pc.home = false;
+    (pc.disconnect = true), (pc.home = false);
     pc.vnc = false;
   }
 
   public load(pc) {
-    setTimeout(() => {
-      if (!pc.home) {
-        pc.home = true;
-      } else {
-        pc.vnc = true;
-      }
-    }, pc.home ? 1000 : 0);
+    setTimeout(
+      () => {
+        if (!pc.home) {
+          pc.home = true;
+        } else {
+          pc.vnc = true;
+        }
+      },
+      pc.home ? 1000 : 0
+    );
   }
 
   public delete(ip) {
-    this.open(DialogComponent, {}, (result) => {
+    this.open(DialogComponent, {}, result => {
       this.computers = this.computers.filter(c => c.ip !== ip);
     });
   }
@@ -166,9 +175,13 @@ export class ListService {
   }
 
   public diagram() {
-    this.open(DiagramComponent, {
-      maxWidth: '70%',
-    }, () => {});
+    this.open(
+      DiagramComponent,
+      {
+        maxWidth: '70%'
+      },
+      () => {}
+    );
   }
 
   private getUrl(ip, host) {
@@ -177,11 +190,17 @@ export class ListService {
   }
 
   private open(component, options, success) {
-    const dialogRef = this._dialog.open(component, Object.assign({
-      width: '80%',
-      maxWidth: '500px',
-      autoFocus: false
-    }, options));
+    const dialogRef = this._dialog.open(
+      component,
+      Object.assign(
+        {
+          width: '80%',
+          maxWidth: '500px',
+          autoFocus: false
+        },
+        options
+      )
+    );
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
