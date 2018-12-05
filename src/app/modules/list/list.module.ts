@@ -12,6 +12,7 @@ import { ListComponent } from './list.component';
 import { FormlyCommonsModule } from '../../common/formly/formly.module';
 import { AddIpComponent } from './add-ip/add-ip.component';
 import { DiagramComponent } from './diagram/diagram.component';
+import { SettingComponent } from './setting/setting.component';
 
 @NgModule({
   imports: [
@@ -25,11 +26,13 @@ import { DiagramComponent } from './diagram/diagram.component';
   declarations: [
     ListComponent,
     AddIpComponent,
-    DiagramComponent
+    DiagramComponent,
+    SettingComponent
   ],
   entryComponents: [
     AddIpComponent,
-    DiagramComponent
+    DiagramComponent,
+    SettingComponent
   ],
   providers: [ListService]
 })

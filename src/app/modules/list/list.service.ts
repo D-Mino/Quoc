@@ -7,6 +7,7 @@ import { AddIpComponent } from './add-ip/add-ip.component';
 import { DialogComponent } from '@components/dialog/dialog.component';
 import { NotificationService } from '@services/notification.service';
 import { DiagramComponent } from './diagram/diagram.component';
+import { SettingComponent } from './setting/setting.component';
 
 @Injectable({
   providedIn: 'root'
@@ -155,9 +156,11 @@ export class ListService {
     );
   }
 
-  public delete(ip) {
+  public delete(pc) {
     this.open(DialogComponent, {}, result => {
-      this.computers = this.computers.filter(c => c.ip !== ip);
+      this._api.delete('getip/delete/' + pc.id).subscribe(response => {
+        this.computers = this.computers.filter(c => c.ip !== pc.ip);
+      });
     });
   }
 
@@ -178,6 +181,16 @@ export class ListService {
   public diagram() {
     this.open(
       DiagramComponent,
+      {
+        maxWidth: '70%'
+      },
+      () => {}
+    );
+  }
+
+  public install() {
+    this.open(
+      SettingComponent,
       {
         maxWidth: '70%'
       },
