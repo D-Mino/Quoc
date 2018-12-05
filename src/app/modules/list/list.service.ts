@@ -93,14 +93,15 @@ export class ListService {
       this._api.post('addIP', {
         name: result.name,
         ip: result.ip,
-        host: result.host,
-        protocol: 'http'
+        port: result.port,
+        protocol: 'http',
+        user_id: this._api.user.id
       }).subscribe(response => {
         this.computers.push({
           name: result.name,
           ip: result.ip,
-          host: result.host,
-          api: this.getUrl(result.ip, result.host),
+          port: result.port,
+          api: this.getUrl(result.ip, result.port),
           fullScreen: true,
           success: false,
           connecting: true,
@@ -114,7 +115,7 @@ export class ListService {
   }
 
   public connect(pc) {
-    this._api.get(`http://${pc.ip}:${pc.host}/`).subscribe(
+    this._api.get(`http://${pc.ip}:${pc.port}/`).subscribe(
       response => {
         pc.success = true;
       },
@@ -126,7 +127,7 @@ export class ListService {
     pc.success = false;
     pc.connecting = true;
     pc.disconnect = false;
-    this._api.get(`http://${pc.ip}:${pc.host}/`).subscribe(
+    this._api.get(`http://${pc.ip}:${pc.port}/`).subscribe(
       response => {
         pc.success = true;
       },

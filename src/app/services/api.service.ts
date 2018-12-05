@@ -48,7 +48,7 @@ export class ApiService {
       .pipe(
         map((response: any) => {
           this.showLoading(false);
-          return response;
+          return response.json();
         }),
         catchError((err => {
           this.showLoading(false);

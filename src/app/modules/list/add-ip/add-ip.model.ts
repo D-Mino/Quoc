@@ -20,11 +20,11 @@ export const Model: FormlyFieldConfig[] = [
     },
   },
   {
-    key: 'host',
+    key: 'port',
     type: 'input',
     defaultValue: '8080',
     templateOptions: {
-      label: 'Host',
+      label: 'Port',
       placeholder: 'Host: 8080',
       required: true,
     },
