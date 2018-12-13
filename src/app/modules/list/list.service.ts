@@ -14,6 +14,8 @@ import { SettingComponent } from './setting/setting.component';
 })
 export class ListService {
   public computers: any[];
+  public scripts: any[];
+  public selectedScript: any;
 
   constructor(
     private _api: ApiService,
@@ -21,60 +23,29 @@ export class ListService {
     private _notify: NotificationService,
     private _dialog: MatDialog,
     private sanitizer: DomSanitizer
-  ) {}
-
-  public init() {
-    this.computers = [
+  ) {
+    this.selectedScript = {};
+    this.computers = [];
+    this.scripts = [
       {
-        name: 'Quoc Tran',
-        ip: '192.168.1.3',
-        host: '8080',
-        api: this.getUrl('192.168.1.3', '8080'),
-        fullScreen: false,
-        success: false,
-        connecting: true,
-        disconnect: false,
-        home: false,
-        vnc: false
+        id: 1,
+        title: 'Kịch bản 1',
+        computers: []
       },
       {
-        name: 'Truong vuong',
-        ip: '192.168.1.4',
-        host: '8080',
-        api: this.getUrl('192.168.1.4', '8080'),
-        fullScreen: false,
-        success: false,
-        connecting: true,
-        disconnect: false,
-        home: false,
-        vnc: false
+        id: 2,
+        title: 'Kịch bản 2',
+        computers: []
       },
       {
-        name: 'Bao Loc',
-        ip: '192.168.1.143',
-        host: '8080',
-        api: this.getUrl('192.168.1.143', '8080'),
-        fullScreen: false,
-        success: false,
-        connecting: true,
-        disconnect: false,
-        home: false,
-        vnc: false
-      },
-      {
-        name: 'Computer 09',
-        ip: '192.168.1.6',
-        host: '8080',
-        api: this.getUrl('192.168.1.4', '8080'),
-        fullScreen: false,
-        success: false,
-        connecting: true,
-        disconnect: false,
-        home: false,
-        vnc: false
+        id: 3,
+        title: 'Kịch bản 3',
+        computers: []
       }
     ];
+  }
 
+  public init() {
     this.computers = [];
     this._api.get('getip/user/' + this._api.user.id).subscribe(response => {
       this.computers = response.data;

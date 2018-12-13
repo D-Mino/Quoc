@@ -2,11 +2,19 @@
 
 <mat-sidenav-container class="example-container">
   <mat-sidenav class="sidenav" #sidenav mode="side" opened>
+    <mat-toolbar color="accent">
+      <mat-toolbar-row>
+        <span style="font-size: 16px">Kịch Bản</span>
+        <span class="toolbar-spacer"></span>
+        <button mat-icon-button class="toolbar-icon">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
     <mat-list>
-      <mat-list-item *ngFor="let computer of _list.computers" [class.selected]="computer.fullScreen || _list.computers.length === 1" (click)="computer.fullScreen = true; _list.removeFullScreen(computer.ip)">
-        <mat-icon mat-list-icon>computer</mat-icon>
-        <h4 mat-line>{{ computer.name }}</h4>
-        <p mat-line> {{ computer.ip }} </p>
+      <mat-list-item *ngFor="let script of _list.scripts" [class.selected]="script.id === _list.selectedScript.id" (click)="_list.selectedScript = script">
+        <mat-icon mat-list-icon>view_module</mat-icon>
+        <h4 mat-line>{{ script.title }}</h4>
       </mat-list-item>
     </mat-list>
   </mat-sidenav>

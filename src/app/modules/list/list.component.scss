@@ -10,6 +10,22 @@ mat-sidenav-container {
     width: 200px;
     background-color: #404048;
     
+    mat-toolbar {
+      min-height: 46px !important;
+
+      mat-toolbar-row {
+        height: 46px;
+      }
+    }
+
+    .toolbar-icon {
+      margin-right: -8px;
+    }
+    
+    .toolbar-spacer {
+      flex: 1 1 auto;
+    }
+
     .selected {
       background-color: $color-primary;
     }
