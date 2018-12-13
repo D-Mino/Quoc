@@ -24,52 +24,72 @@ export class ListService {
     private _dialog: MatDialog,
     private sanitizer: DomSanitizer
   ) {
-    this.selectedScript = {};
     this.computers = [];
-    this.scripts = [
-      {
-        id: 1,
-        title: 'Kịch bản 1',
-        computers: []
-      },
-      {
-        id: 2,
-        title: 'Kịch bản 2',
-        computers: []
-      },
-      {
-        id: 3,
-        title: 'Kịch bản 3',
-        computers: []
-      }
-    ];
+    this.scripts = [];
+    this.selectedScript = {};
   }
 
   public init() {
     this.computers = [];
-    this._api.get('getip/user/' + this._api.user.id).subscribe(response => {
-      this.computers = response.data;
-      this.computers.forEach(pc => {
-        this.connect(pc);
+    this._api.get('script/all').subscribe(response => {
+      this.scripts = response.data;
+      this.selectedScript = this.scripts[0];
+      this.selectScript(this.selectedScript);
+    });
+  }
+
+  public selectScript(script) {
+    this.selectedScript = script;
+    this.computers = script.ip_address.map(pc => {
+      return Object.assign({}, pc, {
+        api: this.getUrl(pc.ip, pc.port),
+        fullScreen: false,
+        success: false,
+        connecting: true,
+        disconnect: false,
+        home: false,
+        vnc: false
       });
+    });
+    this.computers.forEach(c => {
+      this.connect(c);
     });
   }
 
   public addIP() {
-    this.open(AddIpComponent, {}, result => {
+    this.open(AddIpComponent, {
+      data: {
+        scripts: this.scripts.map(sc => {
+          return { value: sc.id, label: sc.name };
+        }),
+        selected: this.selectedScript
+      }
+    }, result => {
       if (this.computers.findIndex(c => c.ip === result.ip) !== -1) {
         return this._notify.error('The IP address already exists');
       }
 
       this.removeFullScreen('');
       this._api.post('addIP', {
+        script_id: result.script_id,
         name: result.name,
         ip: result.ip,
         port: result.port,
         protocol: 'http',
-        user_id: this._api.user.id
-      }).subscribe(response => {
+      }).subscribe((response: any) => {
+        this.selectedScript['ip_address'].push(
+          {
+            id: response.id,
+            script_id: result.script_id,
+            name: result.name,
+            ip: result.ip,
+            port: result.port,
+            protocol: 'http',
+          }
+        );
         this.computers.push({
+          id: response.id,
+          script_id: result.script_id,
           name: result.name,
           ip: result.ip,
           port: result.port,

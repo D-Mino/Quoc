@@ -29,7 +29,7 @@ export class ApiService {
     const headers = new Headers();
 
     if (token) {
-      headers.append('Authorization', this.token);
+      headers.append('Authorization', 'bearer ' + this.token);
     }
 
     const params: URLSearchParams = new URLSearchParams();
@@ -68,7 +68,7 @@ export class ApiService {
     });
 
     if (token) {
-      headers.append('Authorization', this.token);
+      headers.append('Authorization', 'bearer ' + this.token);
     }
 
     const dataSet: URLSearchParams = new URLSearchParams();
@@ -100,7 +100,7 @@ export class ApiService {
   public put(endpoint: string, data: any): Observable<any[]> {
     const headers = new Headers({
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      Authorization: this.token
+      Authorization: 'bearer ' + this.token
     });
 
     const dataSet: URLSearchParams = new URLSearchParams();
@@ -132,7 +132,7 @@ export class ApiService {
   public delete(endpoint: string, data: any = {}): Observable<any[]> {
     const headers = new Headers({
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      Authorization: this.token
+      Authorization: 'bearer ' + this.token
     });
 
     const options = new RequestOptions({
