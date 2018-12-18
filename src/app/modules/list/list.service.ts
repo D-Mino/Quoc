@@ -65,7 +65,8 @@ export class ListService {
         selected: this.selectedScript
       }
     }, result => {
-      if (this.computers.findIndex(c => c.ip === result.ip) !== -1) {
+      const script = this.scripts.find(s => s.id === result.script_id);
+      if (script.ip_address.length && script.ip_address.find(c => c.ip === result.ip)) {
         return this._notify.error('The IP address already exists');
       }
 
@@ -77,6 +78,9 @@ export class ListService {
         port: result.port,
         protocol: 'http',
       }).subscribe((response: any) => {
+        if (script.id !== this.selectedScript.id) {
+          this.selectScript(script);
+        }
         this.selectedScript['ip_address'].push(
           {
             id: response.id,
