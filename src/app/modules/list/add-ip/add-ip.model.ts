@@ -7,6 +7,7 @@ export const Model: FormlyFieldConfig[] = [
     templateOptions: {
       placeholder: 'Script',
       required: true,
+      disabled: true,
       options: []
     },
   },

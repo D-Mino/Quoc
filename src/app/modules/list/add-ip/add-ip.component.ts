@@ -22,7 +22,6 @@ export class AddIpComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({});
     this.fields = Model;
     this.fields[0].templateOptions.options = this.data.scripts;
-    console.log(this.data);
     this.options = {};
     this.model = { script_id: this.data.selected.id };
   }

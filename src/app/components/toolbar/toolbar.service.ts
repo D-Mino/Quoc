@@ -6,10 +6,12 @@ import { StorageService } from '@services/storage.service';
   providedIn: 'root'
 })
 export class ToolbarService {
-  public title: string;
-  constructor(public _storage: StorageService) {}
+  public user: any;
+  constructor(public _storage: StorageService) {
+    this.user = {};
+  }
 
   public getName() {
-    this.title = this._storage.get('name');
+    this.user = this._storage.get('user');
   }
 }

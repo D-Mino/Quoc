@@ -1,10 +1,12 @@
-<app-toolbar></app-toolbar>
+<div *ngIf="!isFullScreen">
+  <app-toolbar></app-toolbar>
+</div>
 
-<mat-sidenav-container class="example-container">
+<mat-sidenav-container class="example-container" [class.full-screen]="isFullScreen">
   <mat-sidenav class="sidenav" #sidenav mode="side" opened>
     <mat-toolbar color="accent">
       <mat-toolbar-row>
-        <span style="font-size: 16px">Kịch Bản</span>
+        <span style="font-size: 16px">Scripts</span>
         <span class="toolbar-spacer"></span>
         <button mat-icon-button class="toolbar-icon" (click)="_list.addscripts()">
           <mat-icon>add</mat-icon>
@@ -12,53 +14,66 @@
       </mat-toolbar-row>
     </mat-toolbar>
     <mat-list>
-      <mat-list-item *ngFor="let script of _list.scripts" [class.selected]="script.id === _list.selectedScript.id" (click)="_list.selectScript(script)">
+      <mat-list-item *ngFor="let script of _list.scripts" [class.selected]="script.id === _list.selectedScript.id"
+        (click)="_list.selectScript(script)">
         <mat-icon mat-list-icon>view_module</mat-icon>
         <h4 mat-line>{{ script.name }}</h4>
       </mat-list-item>
     </mat-list>
   </mat-sidenav>
 
-  <mat-sidenav-content [class.full-screen]="_list.computers.length === 1 || _list.isFull()">
+  <mat-sidenav-content [class.full-screen]="isFullScreen">
     <div class="screen">
-      <div *ngFor="let pc of _list.computers" [class.pc]="!pc.fullScreen && _list.computers.length > 1" [class.pc-full]="pc.fullScreen || _list.computers.length === 1">
-        <mat-toolbar color="accent">
-          <mat-toolbar-row>
-            <span style="font-size: 16px">{{ pc.ip }}: {{ pc.name }}</span>
-            <span class="toolbar-spacer"></span>
-            <button mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item *ngIf="!pc.fullScreen && _list.computers.length > 1" (click)="pc.fullScreen = true">
-                  <mat-icon>zoom_in</mat-icon>
-                  <span>Zoom</span>
-                </button>
-                <button mat-menu-item *ngIf="pc.fullScreen && _list.computers.length > 1" (click)="pc.fullScreen = false">
-                  <mat-icon>zoom_out</mat-icon>
-                  <span>Reset</span>
-                </button>
-                <button mat-menu-item *ngIf="pc.success" (click)="_list.disconnect(pc)">
-                  <mat-icon>power_settings_new</mat-icon>
-                  <span>Disconnect</span>
-                </button>
-                <button mat-menu-item (click)="_list.delete(pc)">
-                  <mat-icon>delete</mat-icon>
-                  <span>Delete</span>
-                </button>
-              </mat-menu>
-          </mat-toolbar-row>
-        </mat-toolbar>
-        <div class="loading" *ngIf="!pc.success || !pc.vnc">
-          <mat-spinner *ngIf="pc.connecting"></mat-spinner>
-          <h2 class="mat-title" *ngIf="!pc.connecting && !pc.disconnect">Can not the connect to {{ pc.ip }}</h2>
-          <button mat-raised-button *ngIf="!pc.connecting" color="primary" (click)="_list.reconnect(pc)">
-            {{ pc.disconnect ? 'Connect' : 'Reconnect' }}
+      <div class="pc" *ngIf="_list.selectedComputer.id">
+        <div class="loading" *ngIf="!_list.selectedComputer.success || !_list.selectedComputer.vnc">
+          <mat-spinner *ngIf="_list.selectedComputer.connecting"></mat-spinner>
+          <h2 class="mat-title" *ngIf="!_list.selectedComputer.connecting && !_list.selectedComputer.disconnect">
+            Can not the connect to {{ _list.selectedComputer.ip }}
+          </h2>
+          <button mat-raised-button *ngIf="!_list.selectedComputer.connecting" color="primary" (click)="_list.reconnect(_list.selectedComputer)">
+            {{ _list.selectedComputer.disconnect ? 'Connect' : 'Reconnect' }}
           </button>
         </div>
-        <iframe [class.hide]="!pc.vnc" [id]="pc.ip" *ngIf="pc.success" [src]="pc.api" frameborder="0" (load)="_list.load(pc)">
+        <iframe [class.hide]="!_list.selectedComputer.vnc" *ngIf="_list.selectedComputer.success" [src]="_list.selectedComputer.api" frameborder="0" (load)="_list.load(_list.selectedComputer)">
         </iframe>
+        <mat-toolbar color="accent">
+          <mat-toolbar-row>
+            <mat-icon>person</mat-icon>
+            <span style="font-size: 16px; margin-left: 12px">
+              {{ _list.selectedComputer.name }} : {{ _list.selectedComputer.ip }}
+            </span>
+            <span class="toolbar-spacer"></span>
+            <button color="warn" mat-icon-button matTooltip="Stop" *ngIf="_list.selectedComputer.success" (click)="_list.disconnect(_list.selectedComputer)">
+              <mat-icon>stop</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Full Screen" (click)="isFullScreen = !isFullScreen">
+              <mat-icon>{{ isFullScreen ? 'fullscreen_exit': 'fullscreen' }}</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Delete" *ngIf="!isFullScreen" (click)="_list.delete(_list.selectedComputer)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-toolbar-row>
+        </mat-toolbar>
       </div>
     </div>
   </mat-sidenav-content>
+
+  <mat-sidenav class="sidenav" #sidenav mode="side" position="end" opened>
+    <mat-toolbar color="accent">
+      <mat-toolbar-row>
+        <span style="font-size: 16px">Computers</span>
+        <span class="toolbar-spacer"></span>
+        <button mat-icon-button class="toolbar-icon" (click)="_list.addIP()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-list>
+      <mat-list-item *ngFor="let pc of _list.computers" [class.selected]="pc.id === _list.selectedComputer.id" (click)="_list.selectComputer(pc)">
+        <mat-icon mat-list-icon>computer</mat-icon>
+        <h4 mat-line>{{ pc.name }}</h4>
+        <p mat-line> {{ pc.ip }} </p>
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
 </mat-sidenav-container>

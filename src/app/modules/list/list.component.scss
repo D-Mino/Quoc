@@ -6,16 +6,27 @@ mat-sidenav-container {
   height: calc(100% - 56px);
   position: relative;
 
+  &.full-screen {
+    height: 100% !important;
+  }
+
   .sidenav {
-    width: 200px;
+    width: 260px;
     background-color: #404048;
     
     mat-toolbar {
       min-height: 46px !important;
+      position: fixed;
 
       mat-toolbar-row {
         height: 46px;
       }
+    }
+
+    mat-list {
+      margin-top: 46px !important;
+      height: calc(100% - 46px) !important;
+      overflow-y: auto;
     }
 
     .toolbar-icon {
@@ -45,13 +56,11 @@ mat-sidenav-container {
   }
   
   mat-sidenav-content {
+    overflow: hidden;
 
     &.full-screen {
-      overflow-y: hidden;
-
-      .screen {
-        margin-top: 100%;
-      }
+      margin: 0 !important;
+      z-index: 9999;
     }
 
     img {
@@ -62,32 +71,23 @@ mat-sidenav-container {
     .screen {
       height: 100%;
       width: 100%;
-      display: flex;
-      flex-wrap: wrap;
       background-color: #ccc;
 
       .pc {
-        width: 50%;
-        height: 50%;
-        background-color: #71727F;
-        border: 1px solid #BBB9BB;
-        box-sizing: border-box;
-      }
-
-      .pc-full {
         position: absolute;
         z-index: 999;
-        margin-top: -100%;
         width: 100%;
         height: 100%;
       }
 
       iframe {
+        position: absolute;
         height: calc(100% - 46px);
         width: 100%;
       }
 
       .loading {
+        position: absolute;
         height: calc(100% - 46px);
         width: 100%;
         display: flex;
@@ -102,6 +102,8 @@ mat-sidenav-container {
 
       mat-toolbar {
         min-height: 46px !important;
+        position: absolute;
+        bottom: 0;
 
         mat-toolbar-row {
           height: 46px;
