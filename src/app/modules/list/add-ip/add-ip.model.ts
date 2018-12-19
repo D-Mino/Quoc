@@ -2,6 +2,15 @@ import { FormlyFieldConfig } from '@ngx-formly/core/lib/core';
 
 export const Model: FormlyFieldConfig[] = [
   {
+    key: 'script_id',
+    type: 'select',
+    templateOptions: {
+      placeholder: 'Script',
+      required: true,
+      options: []
+    },
+  },
+  {
     key: 'name',
     type: 'input',
     templateOptions: {
