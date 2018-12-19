@@ -118,8 +118,12 @@ export class ListService {
       this._api.post('script/create', {
         name: result.name,
         description: result.description
-      }).subscribe(response => {
-        this.scripts.push()
+      }).subscribe((response: any) => {
+        this.scripts.push({
+          id: response.id,
+          name: result.name,
+          description: result.description
+        });
       }, err => this._notify.error(err.name));
     });
   }
