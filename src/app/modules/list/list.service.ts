@@ -115,19 +115,11 @@ export class ListService {
         return this._notify.error('The IP address already exists');
       }
       this.removeFullScreen('');
-      this._api.post('addscripts', {
-        name: result.name
+      this._api.post('script/create', {
+        name: result.name,
+        description: result.description
       }).subscribe(response => {
-        this.computers.push({
-          name: result.name,
-          fullScreen: true,
-          success: false,
-          connecting: true,
-          disconnect: false,
-          home: false,
-          vnc: false
-        });
-        this.connect(this.computers[this.computers.length - 1]);
+        this.scripts.push()
       }, err => this._notify.error(err.name));
     });
   }

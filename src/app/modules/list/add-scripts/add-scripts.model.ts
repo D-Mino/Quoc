@@ -11,12 +11,11 @@ export const Model: FormlyFieldConfig[] = [
     },
   },
   {
-    key: 'Textarea',
+    key: 'description',
     type: 'textarea',
     templateOptions: {
       label: 'Scenario Description',
-      placeholder: 'Scenario Description',
-      required: true,
+      placeholder: 'Scenario Description'
     },
   },
 ];
