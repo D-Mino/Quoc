@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ApiService } from '@services/api.service';
 import { StorageService } from '@services/storage.service';
@@ -8,7 +8,7 @@ import { DialogComponent } from '@components/dialog/dialog.component';
 import { NotificationService } from '@services/notification.service';
 import { DiagramComponent } from './diagram/diagram.component';
 import { SettingComponent } from './setting/setting.component';
-
+import { AddScriptsComponent } from './add-scripts/add-scripts.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -74,6 +74,28 @@ export class ListService {
           ip: result.ip,
           port: result.port,
           api: this.getUrl(result.ip, result.port),
+          fullScreen: true,
+          success: false,
+          connecting: true,
+          disconnect: false,
+          home: false,
+          vnc: false
+        });
+        this.connect(this.computers[this.computers.length - 1]);
+      }, err => this._notify.error(err.name));
+    });
+  }
+  public addscripts() {
+    this.open(AddScriptsComponent, {}, result => {
+      if (this.computers.findIndex(c => c.ip === result.ip) !== -1) {
+        return this._notify.error('The IP address already exists');
+      }
+      this.removeFullScreen('');
+      this._api.post('addscripts', {
+        name: result.name
+      }).subscribe(response => {
+        this.computers.push({
+          name: result.name,
           fullScreen: true,
           success: false,
           connecting: true,
