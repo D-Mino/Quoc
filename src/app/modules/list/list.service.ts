@@ -181,6 +181,19 @@ export class ListService {
     });
   }
 
+
+  public deleteScript(script) {
+    this.open(DialogComponent, {}, result => {
+      this._api.delete('script/' + script.id).subscribe(response => {
+        this.scripts = this.scripts.filter(c => c.id !== script.id);
+        if (script.id === this.selectedScript.id) {
+          this.selectedScript = this.scripts[0];
+          this.selectScript(this.selectedScript);
+        }
+      });
+    });
+  }
+
   public removeFullScreen(ip) {
     this.computers = this.computers.map(c => {
       if (c.ip !== ip) {
