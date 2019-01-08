@@ -12,10 +12,12 @@ import { NotificationService } from './notification.service';
 export class ApiService {
   public isLoading = false;
   public url: string;
-  public token = '';
+  public token: any;
+  public user: any;
 
   constructor(public _http: Http, public _storage: StorageService, public _notify: NotificationService) {
     this.token = this._storage.get('token') || '';
+    this.user = this._storage.get('user') || {};
     this.env();
   }
 
@@ -27,7 +29,7 @@ export class ApiService {
     const headers = new Headers();
 
     if (token) {
-      headers.append('Authorization', this.token);
+      headers.append('Authorization', 'bearer ' + this.token);
     }
 
     const params: URLSearchParams = new URLSearchParams();
@@ -42,7 +44,7 @@ export class ApiService {
 
     this.showLoading();
 
-    return this._http.get(this.url + endpoint, options)
+    return this._http.get(this.setUrl(endpoint), options)
       .pipe(
         map((response: any) => {
           this.showLoading(false);
@@ -66,7 +68,7 @@ export class ApiService {
     });
 
     if (token) {
-      headers.append('Authorization', this.token);
+      headers.append('Authorization', 'bearer ' + this.token);
     }
 
     const dataSet: URLSearchParams = new URLSearchParams();
@@ -81,7 +83,7 @@ export class ApiService {
 
     this.showLoading();
 
-    return this._http.post(this.url + endpoint, dataSet.toString(), options)
+    return this._http.post(this.setUrl(endpoint), dataSet.toString(), options)
       .pipe(
         map((response: any) => {
           this.showLoading(false);
@@ -98,7 +100,7 @@ export class ApiService {
   public put(endpoint: string, data: any): Observable<any[]> {
     const headers = new Headers({
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      Authorization: this.token
+      Authorization: 'bearer ' + this.token
     });
 
     const dataSet: URLSearchParams = new URLSearchParams();
@@ -113,7 +115,7 @@ export class ApiService {
 
     this.showLoading();
 
-    return this._http.put(this.url + endpoint, dataSet.toString(), options)
+    return this._http.put(this.setUrl(endpoint), dataSet.toString(), options)
       .pipe(
         map((response: any) => {
           this.showLoading(false);
@@ -130,7 +132,7 @@ export class ApiService {
   public delete(endpoint: string, data: any = {}): Observable<any[]> {
     const headers = new Headers({
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      Authorization: this.token
+      Authorization: 'bearer ' + this.token
     });
 
     const options = new RequestOptions({
@@ -140,7 +142,7 @@ export class ApiService {
 
     this.showLoading();
 
-    return this._http.delete(this.url + endpoint, options)
+    return this._http.delete(this.setUrl(endpoint), options)
       .pipe(
         map((response: any) => {
           this.showLoading(false);
@@ -152,6 +154,14 @@ export class ApiService {
           throw err;
         }))
       );
+  }
+
+  private setUrl(endpoint: string) {
+    if (endpoint.includes('http')) {
+      return endpoint;
+    }
+
+    return this.url + endpoint;
   }
 
   private showLoading(load: boolean = true) {

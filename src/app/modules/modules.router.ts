@@ -7,10 +7,10 @@ const routes: Routes = [
   {
     path: 'list',
     loadChildren: './list/list.module#ListModule',
-    // canActivate: [AuthService]
+    canActivate: [AuthService]
   },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/list', pathMatch: 'full' },
+  { path: '**', redirectTo: '/list', pathMatch: 'full' }
 ];
 
 @NgModule({

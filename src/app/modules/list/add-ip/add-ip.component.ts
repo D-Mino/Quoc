@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Model } from './add-ip.model';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-ip',
@@ -15,13 +16,15 @@ export class AddIpComponent implements OnInit, OnDestroy {
   public options: FormlyFormOptions;
   public model: any;
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     this.form = new FormGroup({});
     this.fields = Model;
+    this.fields[0].templateOptions.options = this.data.scripts;
+    console.log(this.data);
     this.options = {};
-    this.model = {};
+    this.model = { script_id: this.data.selected.id };
   }
 
   ngOnDestroy() {

@@ -2,6 +2,15 @@ import { FormlyFieldConfig } from '@ngx-formly/core/lib/core';
 
 export const Model: FormlyFieldConfig[] = [
   {
+    key: 'script_id',
+    type: 'select',
+    templateOptions: {
+      placeholder: 'Script',
+      required: true,
+      options: []
+    },
+  },
+  {
     key: 'name',
     type: 'input',
     templateOptions: {
@@ -20,11 +29,11 @@ export const Model: FormlyFieldConfig[] = [
     },
   },
   {
-    key: 'host',
+    key: 'port',
     type: 'input',
     defaultValue: '8080',
     templateOptions: {
-      label: 'Host',
+      label: 'Port',
       placeholder: 'Host: 8080',
       required: true,
     },

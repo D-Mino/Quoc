@@ -18,7 +18,8 @@ import {
   MatNativeDateModule,
   MatCardModule,
   MatChipsModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 
 @NgModule({
@@ -41,7 +42,8 @@ import {
     MatSortModule,
     MatTableModule,
     MatTabsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatProgressSpinnerModule
   ]
 })
 export class MaterialCommonsModule {}

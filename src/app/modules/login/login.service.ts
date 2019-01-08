@@ -35,19 +35,16 @@ export class LoginService {
   }
 
   public login() {
-    this._storage.set('name', this.model.username);
-    this._router.navigateByUrl('/list');
-    // this._api
-    //   .post('auth', {
-    //     password: this.model['password']
-    //   })
-    //   .subscribe((response: any) => {
-    //     this._storage.set('token', response.token);
-    //     this._storage.set('role', 'staff');
-    //     this._api.token = response.token;
-    //     this._router.navigateByUrl(
-    //       this.redirectUrl ? this.redirectUrl : '/list'
-    //     );
-    //   });
+    this._api
+      .post('auth/login', this.model)
+      .subscribe((response: any) => {
+        this._storage.set('token', response.token);
+        this._storage.set('user', response.data);
+        this._api.token = response.token;
+        this._api.user = response.data;
+        this._router.navigateByUrl(
+          this.redirectUrl ? this.redirectUrl : '/list'
+        );
+      });
   }
 }
