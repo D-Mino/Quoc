@@ -46,9 +46,7 @@ export class ListService {
         fullScreen: false,
         success: false,
         connecting: true,
-        disconnect: false,
-        home: false,
-        vnc: false
+        disconnect: false
       });
     });
     this.computers.forEach(c => {
@@ -101,9 +99,7 @@ export class ListService {
           fullScreen: true,
           success: false,
           connecting: true,
-          disconnect: false,
-          home: false,
-          vnc: false
+          disconnect: false
         });
         this.connect(this.computers[this.computers.length - 1]);
       }, err => this._notify.error(err.name));
@@ -133,7 +129,7 @@ export class ListService {
       response => {
         pc.success = true;
       },
-      err => (pc.connecting = false)
+      err => pc.connecting = false
     );
   }
 
@@ -145,28 +141,14 @@ export class ListService {
       response => {
         pc.success = true;
       },
-      err => (pc.connecting = false)
+      err => pc.connecting = false
     );
   }
 
   public disconnect(pc) {
     pc.success = false;
     pc.connecting = false;
-    (pc.disconnect = true), (pc.home = false);
-    pc.vnc = false;
-  }
-
-  public load(pc) {
-    setTimeout(
-      () => {
-        if (!pc.home) {
-          pc.home = true;
-        } else {
-          pc.vnc = true;
-        }
-      },
-      pc.home ? 1000 : 0
-    );
+    pc.disconnect = true;
   }
 
   public delete(pc) {
