@@ -49,14 +49,14 @@
               </mat-menu>
           </mat-toolbar-row>
         </mat-toolbar>
-        <div class="loading" *ngIf="!pc.success || !pc.vnc">
+        <div class="loading" *ngIf="!pc.success">
           <mat-spinner *ngIf="pc.connecting"></mat-spinner>
           <h2 class="mat-title" *ngIf="!pc.connecting && !pc.disconnect">Can not the connect to {{ pc.ip }}</h2>
           <button mat-raised-button *ngIf="!pc.connecting" color="primary" (click)="_list.reconnect(pc)">
             {{ pc.disconnect ? 'Connect' : 'Reconnect' }}
           </button>
         </div>
-        <iframe [class.hide]="!pc.vnc" [id]="pc.ip" *ngIf="pc.success" [src]="pc.api" frameborder="0" (load)="_list.load(pc)">
+        <iframe [id]="pc.ip" *ngIf="pc.success" [src]="pc.api" frameborder="0">
         </iframe>
       </div>
     </div>
