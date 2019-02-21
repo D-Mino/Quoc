@@ -178,7 +178,7 @@ export class ApiService {
     if (hostname === 'localhost') {
       this.url = settings.api.local;
     }
-    if (hostname === 'test.cyberair.co') {
+    if (hostname === 'vnc.baoloc.fun') {
       this.url = settings.api.staging;
     }
   }

@@ -46,9 +46,7 @@ export class ListService {
         fullScreen: false,
         success: false,
         connecting: false,
-        disconnect: true,
-        home: false,
-        vnc: false
+        disconnect: true
       });
     });
 
@@ -100,9 +98,7 @@ export class ListService {
           fullScreen: false,
           success: false,
           connecting: false,
-          disconnect: true,
-          home: false,
-          vnc: false
+          disconnect: true
         });
         this.connect(this.computers[this.computers.length - 1]);
       }, err => this._notify.error(err.name));
@@ -129,6 +125,8 @@ export class ListService {
   }
 
   public connect(pc) {
+    pc.connecting = true;
+    pc.disconnect = false;
     this._api.get(`http://${pc.ip}:${pc.port}/`).subscribe(
       () => {
         pc.success = true;
@@ -153,21 +151,6 @@ export class ListService {
     pc.success = false;
     pc.connecting = false;
     pc.disconnect = true;
-    pc.home = false;
-    pc.vnc = false;
-  }
-
-  public load(pc) {
-    setTimeout(
-      () => {
-        if (!pc.home) {
-          pc.home = true;
-        } else {
-          pc.vnc = true;
-        }
-      },
-      pc.home ? 1000 : 0
-    );
   }
 
   public delete(pc) {

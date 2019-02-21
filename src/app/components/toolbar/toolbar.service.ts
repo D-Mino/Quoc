@@ -7,8 +7,10 @@ import { StorageService } from '@services/storage.service';
 })
 export class ToolbarService {
   public user: any;
+  public title: string;
   constructor(public _storage: StorageService) {
     this.user = {};
+    this.title = 'Hệ Thống Thao Trường Số';
   }
 
   public getName() {

@@ -28,7 +28,7 @@
   <mat-sidenav-content [class.full-screen]="isFullScreen">
     <div class="screen">
       <div class="pc" *ngIf="_list.selectedComputer.id">
-        <div class="loading" *ngIf="!_list.selectedComputer.success || !_list.selectedComputer.vnc">
+        <div class="loading" *ngIf="!_list.selectedComputer.success">
           <mat-spinner *ngIf="_list.selectedComputer.connecting"></mat-spinner>
           <h2 class="mat-title" *ngIf="!_list.selectedComputer.connecting && !_list.selectedComputer.disconnect">
             Can not the connect to {{ _list.selectedComputer.ip }}
@@ -37,7 +37,7 @@
             {{ _list.selectedComputer.disconnect ? 'Connect' : 'Reconnect' }}
           </button>
         </div>
-        <iframe [class.hide]="!_list.selectedComputer.vnc" *ngIf="_list.selectedComputer.success" [src]="_list.selectedComputer.api" frameborder="0" (load)="_list.load(_list.selectedComputer)">
+        <iframe *ngIf="_list.selectedComputer.success" [src]="_list.selectedComputer.api" frameborder="0">
         </iframe>
         <mat-toolbar color="accent">
           <mat-toolbar-row>
