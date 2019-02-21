@@ -16,6 +16,7 @@ export class LoginService {
   public form: FormGroup;
   public model: any;
   public fields: FormlyFieldConfig[];
+  public welcome: boolean;
 
   constructor(
     public _api: ApiService,
@@ -25,6 +26,7 @@ export class LoginService {
     public _router: Router
   ) {
     this.redirectUrl = this._auth.redirectUrl || '';
+    this.welcome = true;
   }
 
   public init() {
@@ -46,5 +48,9 @@ export class LoginService {
           this.redirectUrl ? this.redirectUrl : '/list'
         );
       });
+  }
+
+  public nextToLogin() {
+    this.welcome = false;
   }
 }

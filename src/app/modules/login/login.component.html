@@ -1,5 +1,12 @@
 <div class="login">
-  <form [formGroup]="_login.form">
+  <div class="welcome mat-typography" *ngIf="_login.welcome">
+    <div class="content">
+      <h1>Chào mừng đến với khoa công nghệ thông tin</h1>
+      <h1>Trường đại học thông tin liên lạc</h1>
+      <button mat-stroked-button color="primary" (click)="_login.nextToLogin()">Đăng Nhập</button>
+    </div>
+  </div>
+  <form [formGroup]="_login.form" *ngIf="!_login.welcome">
     <formly-form [form]="_login.form" [fields]="_login.fields" [model]="_login.model">
       <button type="button" mat-raised-button button-block color="primary" (click)="_login.login()">Login</button>
     </formly-form>
