@@ -1,10 +1,7 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>REMOTE COMPUTER ACCSESS SYSTEM</span>
+    <span>{{ _toolbar.title }}</span>
     <span class="toolbar-spacer"></span>
-    <button mat-icon-button (click)="_list.addIP()">
-      <mat-icon>computer</mat-icon>
-    </button>
     <button mat-icon-button (click)="_list.diagram()">
       <mat-icon>device_hub</mat-icon>
     </button>

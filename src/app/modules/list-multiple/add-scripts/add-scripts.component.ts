@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Model } from './add-scripts.model';
@@ -8,7 +8,7 @@ import { Model } from './add-scripts.model';
   templateUrl: './add-scripts.component.html',
   styleUrls: ['./add-scripts.component.scss']
 })
-export class AddScriptsComponent implements OnInit, OnDestroy {
+export class AddScriptsComponent implements OnInit {
 
   public form: FormGroup;
   public fields: FormlyFieldConfig[];
@@ -24,6 +24,7 @@ export class AddScriptsComponent implements OnInit, OnDestroy {
     this.model = {};
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
     this.form.reset();
     this.model = {};

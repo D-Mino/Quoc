@@ -8,10 +8,16 @@ import { ListService } from './list.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit, OnDestroy {
-  public isFullScreen: boolean;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  public selectable: boolean;
+  public removable: boolean;
+  public addOnBlur: boolean;
+  public computers: any[];
 
   constructor(public _list: ListService) {
-    this.isFullScreen = false;
+    this.selectable = true;
+    this.removable = true;
+    this.addOnBlur = false;
   }
 
   ngOnInit() {

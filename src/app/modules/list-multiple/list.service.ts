@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ApiService } from '@services/api.service';
+import { StorageService } from '@services/storage.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AddIpComponent } from './add-ip/add-ip.component';
 import { DialogComponent } from '@components/dialog/dialog.component';
@@ -16,10 +17,10 @@ export class ListService {
   public computers: any[];
   public scripts: any[];
   public selectedScript: any;
-  public selectedComputer: any;
 
   constructor(
     private _api: ApiService,
+    private _storage: StorageService,
     private _notify: NotificationService,
     private _dialog: MatDialog,
     private sanitizer: DomSanitizer
@@ -27,7 +28,6 @@ export class ListService {
     this.computers = [];
     this.scripts = [];
     this.selectedScript = {};
-    this.selectedComputer = {};
   }
 
   public init() {
@@ -46,12 +46,13 @@ export class ListService {
         api: this.getUrl(pc.ip, pc.port),
         fullScreen: false,
         success: false,
-        connecting: false,
-        disconnect: true
+        connecting: true,
+        disconnect: false
       });
     });
-
-    this.selectComputer(this.computers[0]);
+    this.computers.forEach(c => {
+      this.connect(c);
+    });
     this.open(
       ScriptDiagramComponent,
       {
@@ -59,11 +60,6 @@ export class ListService {
       },
       () => {}
     );
-  }
-
-  public selectComputer(pc) {
-    this.selectedComputer = pc || {};
-    this.connect(this.selectedComputer);
   }
 
   public addIP() {
@@ -75,10 +71,12 @@ export class ListService {
         selected: this.selectedScript
       }
     }, result => {
-      if (this.computers.find(c => c.ip === result.ip)) {
+      const script = this.scripts.find(s => s.id === result.script_id);
+      if (script.ip_address.length && script.ip_address.find(c => c.ip === result.ip)) {
         return this._notify.error('The IP address already exists');
       }
 
+      this.removeFullScreen('');
       this._api.post('addIP', {
         script_id: result.script_id,
         name: result.name,
@@ -86,9 +84,12 @@ export class ListService {
         port: result.port,
         protocol: 'http',
       }).subscribe((response: any) => {
+        if (script.id !== this.selectedScript.id) {
+          this.selectScript(script);
+        }
         this.selectedScript['ip_address'].push(
           {
-            id: response.data.id,
+            id: response.id,
             script_id: result.script_id,
             name: result.name,
             ip: result.ip,
@@ -97,49 +98,46 @@ export class ListService {
           }
         );
         this.computers.push({
-          id: response.data.id,
+          id: response.id,
           script_id: result.script_id,
           name: result.name,
           ip: result.ip,
           port: result.port,
           api: this.getUrl(result.ip, result.port),
-          fullScreen: false,
+          fullScreen: true,
           success: false,
-          connecting: false,
-          disconnect: true
+          connecting: true,
+          disconnect: false
         });
         this.connect(this.computers[this.computers.length - 1]);
       }, err => this._notify.error(err.name));
     });
   }
-
   public addscripts() {
     this.open(AddScriptsComponent, {}, result => {
-      if (this.computers.find(c => c.ip === result.ip)) {
+      if (this.computers.findIndex(c => c.ip === result.ip) !== -1) {
         return this._notify.error('The IP address already exists');
       }
+      this.removeFullScreen('');
       this._api.post('script/create', {
         name: result.name,
         description: result.description
       }).subscribe((response: any) => {
         this.scripts.push({
-          id: response.data.id,
+          id: response.id,
           name: result.name,
-          description: result.description,
-          ip_address: []
+          description: result.description
         });
       }, err => this._notify.error(err.name));
     });
   }
 
   public connect(pc) {
-    pc.connecting = true;
-    pc.disconnect = false;
     this._api.get(`http://${pc.ip}:${pc.port}/`).subscribe(
-      () => {
+      response => {
         pc.success = true;
       },
-      () => pc.connecting = false
+      err => pc.connecting = false
     );
   }
 
@@ -148,10 +146,10 @@ export class ListService {
     pc.connecting = true;
     pc.disconnect = false;
     this._api.get(`http://${pc.ip}:${pc.port}/`).subscribe(
-      () => {
+      response => {
         pc.success = true;
       },
-      () => pc.connecting = false
+      err => pc.connecting = false
     );
   }
 
@@ -165,22 +163,6 @@ export class ListService {
     this.open(DialogComponent, {}, result => {
       this._api.delete('getip/delete/' + pc.id).subscribe(response => {
         this.computers = this.computers.filter(c => c.ip !== pc.ip);
-        if (pc.id === this.selectedComputer.id) {
-          this.selectedComputer = this.computers[0];
-        }
-      });
-    });
-  }
-
-
-  public deleteScript(script) {
-    this.open(DialogComponent, {}, result => {
-      this._api.delete('script/' + script.id).subscribe(response => {
-        this.scripts = this.scripts.filter(c => c.id !== script.id);
-        if (script.id === this.selectedScript.id) {
-          this.selectedScript = this.scripts[0];
-          this.selectScript(this.selectedScript);
-        }
       });
     });
   }
