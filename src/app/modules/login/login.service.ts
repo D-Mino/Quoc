@@ -45,7 +45,7 @@ export class LoginService {
         this._api.token = response.token;
         this._api.user = response.data;
         this._router.navigateByUrl(
-          this.redirectUrl ? this.redirectUrl : '/list'
+          this.redirectUrl ? this.redirectUrl : '/list-single'
         );
       });
   }
