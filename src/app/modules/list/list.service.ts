@@ -8,6 +8,7 @@ import { NotificationService } from '@services/notification.service';
 import { DiagramComponent } from './diagram/diagram.component';
 import { SettingComponent } from './setting/setting.component';
 import { AddScriptsComponent } from './add-scripts/add-scripts.component';
+import { ScriptDiagramComponent } from './script-diagram/script-diagram.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -51,6 +52,13 @@ export class ListService {
     });
 
     this.selectComputer(this.computers[0]);
+    this.open(
+      ScriptDiagramComponent,
+      {
+        maxWidth: '70%'
+      },
+      () => {}
+    );
   }
 
   public selectComputer(pc) {

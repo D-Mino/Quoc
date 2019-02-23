@@ -11,6 +11,7 @@ import { AddIpComponent } from './add-ip/add-ip.component';
 import { DiagramComponent } from './diagram/diagram.component';
 import { SettingComponent } from './setting/setting.component';
 import { AddScriptsComponent } from './add-scripts/add-scripts.component';
+import { ScriptDiagramComponent } from './script-diagram/script-diagram.component';
 
 @NgModule({
   imports: [
@@ -26,13 +27,15 @@ import { AddScriptsComponent } from './add-scripts/add-scripts.component';
     AddIpComponent,
     AddScriptsComponent,
     DiagramComponent,
-    SettingComponent
+    SettingComponent,
+    ScriptDiagramComponent
   ],
   entryComponents: [
     AddIpComponent,
     AddScriptsComponent,
     DiagramComponent,
-    SettingComponent
+    SettingComponent,
+    ScriptDiagramComponent
   ],
   providers: [ListService]
 })
