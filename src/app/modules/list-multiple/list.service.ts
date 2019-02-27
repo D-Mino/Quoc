@@ -133,11 +133,14 @@ export class ListService {
   }
 
   public connect(pc) {
-    this._api.get(`http://${pc.ip}:${pc.port}/`).subscribe(
+    this._api.checkIP(`http://${pc.ip}:${pc.port}/`).subscribe(
       response => {
         pc.success = true;
       },
-      err => pc.connecting = false
+      err => {
+        pc.success = false;
+        pc.connecting = false;
+      }
     );
   }
 
@@ -145,11 +148,14 @@ export class ListService {
     pc.success = false;
     pc.connecting = true;
     pc.disconnect = false;
-    this._api.get(`http://${pc.ip}:${pc.port}/`).subscribe(
+    this._api.checkIP(`http://${pc.ip}:${pc.port}/`).subscribe(
       response => {
         pc.success = true;
       },
-      err => pc.connecting = false
+      err => {
+        pc.success = false;
+        pc.connecting = false;
+      }
     );
   }
 

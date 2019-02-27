@@ -21,6 +21,10 @@ export class ApiService {
     this.env();
   }
 
+  public checkIP(endpoint) {
+    return this._http.get(this.setUrl(endpoint));
+  }
+
   public get(
     endpoint: string,
     queries: any = {},

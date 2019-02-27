@@ -46,8 +46,8 @@ export class ListService {
         api: this.getUrl(pc.ip, pc.port),
         fullScreen: false,
         success: false,
-        connecting: false,
-        disconnect: true
+        connecting: true,
+        disconnect: false
       });
     });
 
@@ -135,11 +135,14 @@ export class ListService {
   public connect(pc) {
     pc.connecting = true;
     pc.disconnect = false;
-    this._api.get(`http://${pc.ip}:${pc.port}/`).subscribe(
+    this._api.checkIP(`http://${pc.ip}:${pc.port}/`).subscribe(
       () => {
         pc.success = true;
       },
-      () => pc.connecting = false
+      () => {
+        pc.success = false;
+        pc.connecting = false;
+      }
     );
   }
 
@@ -147,11 +150,14 @@ export class ListService {
     pc.success = false;
     pc.connecting = true;
     pc.disconnect = false;
-    this._api.get(`http://${pc.ip}:${pc.port}/`).subscribe(
+    this._api.checkIP(`http://${pc.ip}:${pc.port}/`).subscribe(
       () => {
         pc.success = true;
       },
-      () => pc.connecting = false
+      () => {
+        pc.success = false;
+        pc.connecting = false;
+      }
     );
   }
 
