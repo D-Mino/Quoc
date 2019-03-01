@@ -15,3 +15,9 @@
   justify-content: flex-end;
   margin-bottom: 0 !important;
 }
+example-card {
+  max-width: 400px;
+}
+mat-card-actions{
+  display: flex;
+}
