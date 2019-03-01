@@ -35,9 +35,9 @@ export class ToolbarService {
   private getTime() {
     const time = (new Date().valueOf() - this.startTime.valueOf()) / 1000;
     const hours = Math.floor(time / 3600);
-    const minutes = Math.floor(((time - hours * 3600)) / 60);
-    const seconds = Math.floor((time - hours * 3600) - minutes * 60);
-    console.log(hours, minutes, seconds);
+    const minutes = Math.floor((time - hours * 3600) / 60);
+    const seconds = Math.floor(time - hours * 3600 - minutes * 60);
+
     return (hours > 9 ? hours : '0' + hours)
       + ':' + (minutes > 9 ? minutes : '0' + minutes)
       + ':' + (seconds > 9 ? seconds : '0' + seconds);
