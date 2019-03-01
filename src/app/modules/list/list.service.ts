@@ -7,6 +7,7 @@ import { DialogComponent } from '@components/dialog/dialog.component';
 import { NotificationService } from '@services/notification.service';
 import { AddScriptsComponent } from './add-scripts/add-scripts.component';
 import { ScriptDiagramComponent } from './script-diagram/script-diagram.component';
+import { ToolbarService } from '@components/toolbar/toolbar.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +21,8 @@ export class ListService {
     private _api: ApiService,
     private _notify: NotificationService,
     private _dialog: MatDialog,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private _toolbar: ToolbarService
   ) {
     this.computers = [];
     this.scripts = [];
@@ -38,6 +40,10 @@ export class ListService {
   }
 
   public selectScript(script) {
+    if (!script.start_time) {
+      script.start_time = new Date();
+    }
+    this._toolbar.startTime = script.start_time;
     this.selectedScript = script;
     this.computers = script.ip_address.map(pc => {
       return Object.assign({}, pc, {

@@ -11,13 +11,36 @@ import { MatDialog } from '@angular/material/dialog';
 export class ToolbarService {
   public user: any;
   public title: string;
+  public startTime: Date;
+  public time: string;
+
   constructor(public _storage: StorageService, private _dialog: MatDialog) {
     this.user = {};
     this.title = 'Hệ Thống Thao Trường Số';
+    this.setTime();
   }
 
   public getName() {
     this.user = this._storage.get('user');
+  }
+
+  public setTime() {
+    setInterval(() => {
+      if (this.startTime) {
+        this.time = this.getTime();
+      }
+    }, 1000);
+  }
+
+  private getTime() {
+    const time = (new Date().valueOf() - this.startTime.valueOf()) / 1000;
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor(((time - hours * 3600)) / 60);
+    const seconds = Math.floor((time - hours * 3600) - minutes * 60);
+    console.log(hours, minutes, seconds);
+    return (hours > 9 ? hours : '0' + hours)
+      + ':' + (minutes > 9 ? minutes : '0' + minutes)
+      + ':' + (seconds > 9 ? seconds : '0' + seconds);
   }
 
   public diagram() {

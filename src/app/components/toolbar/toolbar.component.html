@@ -5,14 +5,14 @@
     <button mat-icon-button (click)="_toolbar.diagram()">
       <mat-icon>device_hub</mat-icon>
     </button>
-    <button mat-icon-button>
-      <mat-icon>watch_later</mat-icon>
-    </button>
     <button mat-icon-button (click)="_toolbar.install()">
       <mat-icon>settings</mat-icon>
     </button>
     <button mat-icon-button (click)="_auth.logout()">
       <mat-icon>power_settings_new</mat-icon>
     </button>
+    <div *ngIf="_toolbar.startTime" class="clocker">
+      {{ _toolbar.time }}
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>
