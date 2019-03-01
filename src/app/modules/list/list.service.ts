@@ -5,8 +5,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AddIpComponent } from './add-ip/add-ip.component';
 import { DialogComponent } from '@components/dialog/dialog.component';
 import { NotificationService } from '@services/notification.service';
-import { DiagramComponent } from './diagram/diagram.component';
-import { SettingComponent } from './setting/setting.component';
 import { AddScriptsComponent } from './add-scripts/add-scripts.component';
 import { ScriptDiagramComponent } from './script-diagram/script-diagram.component';
 @Injectable({
@@ -171,6 +169,8 @@ export class ListService {
     this.open(DialogComponent, {}, result => {
       this._api.delete('getip/delete/' + pc.id).subscribe(response => {
         this.computers = this.computers.filter(c => c.ip !== pc.ip);
+        this.selectedScript.ip_address = this.selectedScript.ip_address
+          .filter(i => i.ip !== pc.ip);
         if (pc.id === this.selectedComputer.id) {
           this.selectedComputer = this.computers[0];
         }
@@ -179,7 +179,8 @@ export class ListService {
   }
 
 
-  public deleteScript(script) {
+  public deleteScript(script, e) {
+    e.stopPropagation();
     this.open(DialogComponent, {}, result => {
       this._api.delete('script/' + script.id).subscribe(response => {
         this.scripts = this.scripts.filter(c => c.id !== script.id);
@@ -203,26 +204,6 @@ export class ListService {
 
   public isFull() {
     return this.computers.findIndex(c => c.fullScreen) !== -1;
-  }
-
-  public diagram() {
-    this.open(
-      DiagramComponent,
-      {
-        maxWidth: '70%'
-      },
-      () => {}
-    );
-  }
-
-  public install() {
-    this.open(
-      SettingComponent,
-      {
-        maxWidth: '70%'
-      },
-      () => {}
-    );
   }
 
   private getUrl(ip, host) {

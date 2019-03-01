@@ -17,6 +17,7 @@ export class LoginService {
   public model: any;
   public fields: FormlyFieldConfig[];
   public loading: boolean;
+  public welcome: boolean;
 
   constructor(
     public _api: ApiService,
@@ -27,6 +28,7 @@ export class LoginService {
   ) {
     this.redirectUrl = this._auth.redirectUrl || '';
     this.loading = false;
+    this.welcome = true;
   }
 
   public init() {
@@ -39,10 +41,7 @@ export class LoginService {
   public login() {
     this.loading = true;
     this._api
-      .post('auth/login', {
-        email: 'baolocitplus@gmail.com',
-        password: 'baoloc@123'
-      })
+      .post('auth/login', this.model)
       .subscribe((response: any) => {
         this.loading = false;
         this._storage.set('token', response.token);
@@ -53,5 +52,9 @@ export class LoginService {
           this.redirectUrl ? this.redirectUrl : '/list-multiple'
         );
       }, () => this.loading = false);
+  }
+
+  public nextToLogin() {
+    this.welcome = false;
   }
 }

@@ -12,9 +12,18 @@
       </mat-toolbar-row>
     </mat-toolbar>
     <mat-list>
-      <mat-list-item *ngFor="let script of _list.scripts" [class.selected]="script.id === _list.selectedScript.id" (click)="_list.selectScript(script)">
+      <mat-list-item class="script" *ngFor="let script of _list.scripts" [class.selected]="script.id === _list.selectedScript.id" (click)="_list.selectScript(script)">
         <mat-icon mat-list-icon>view_module</mat-icon>
         <h4 mat-line>{{ script.name }}</h4>
+        <button *ngIf="script.id === _list.selectedScript.id" mat-icon-button class="toolbar-icon" (click)="_list.addIP($event);">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button *ngIf="script.id === _list.selectedScript.id" mat-icon-button class="toolbar-icon" (click)="_list.deleteScript(script, $event);">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button *ngIf="script.id !== _list.selectedScript.id" mat-icon-button class="toolbar-icon script-hover" (click)="_list.deleteScript(script, $event);">
+          <mat-icon>delete</mat-icon>
+        </button>
       </mat-list-item>
     </mat-list>
   </mat-sidenav>

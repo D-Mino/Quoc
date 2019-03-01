@@ -18,7 +18,7 @@
         (click)="_list.selectScript(script)">
         <mat-icon mat-list-icon>view_module</mat-icon>
         <h4 mat-line>{{ script.name }}</h4>
-        <button mat-icon-button matTooltip="Delete" *ngIf="_list.selectedScript.id === script.id" (click)="_list.deleteScript(script)">
+        <button mat-icon-button matTooltip="Delete" *ngIf="_list.selectedScript.id === script.id" (click)="_list.deleteScript(script, $event)">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-list-item>
