@@ -8,8 +8,6 @@ import { ListService } from './list.service';
 import { ListComponent } from './list.component';
 import { FormlyCommonsModule } from '../../common/formly/formly.module';
 import { AddIpComponent } from './add-ip/add-ip.component';
-import { DiagramComponent } from './diagram/diagram.component';
-import { SettingComponent } from './setting/setting.component';
 import { AddScriptsComponent } from './add-scripts/add-scripts.component';
 import { ScriptDiagramComponent } from './script-diagram/script-diagram.component';
 
@@ -26,15 +24,11 @@ import { ScriptDiagramComponent } from './script-diagram/script-diagram.componen
     ListComponent,
     AddIpComponent,
     AddScriptsComponent,
-    DiagramComponent,
-    SettingComponent,
     ScriptDiagramComponent
   ],
   entryComponents: [
     AddIpComponent,
     AddScriptsComponent,
-    DiagramComponent,
-    SettingComponent,
     ScriptDiagramComponent
   ],
   providers: [ListService]
