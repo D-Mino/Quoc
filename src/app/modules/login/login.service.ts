@@ -16,7 +16,7 @@ export class LoginService {
   public form: FormGroup;
   public model: any;
   public fields: FormlyFieldConfig[];
-  public welcome: boolean;
+  public loading: boolean;
 
   constructor(
     public _api: ApiService,
@@ -26,7 +26,7 @@ export class LoginService {
     public _router: Router
   ) {
     this.redirectUrl = this._auth.redirectUrl || '';
-    this.welcome = true;
+    this.loading = false;
   }
 
   public init() {
@@ -37,20 +37,21 @@ export class LoginService {
   }
 
   public login() {
+    this.loading = true;
     this._api
-      .post('auth/login', this.model)
+      .post('auth/login', {
+        email: 'baolocitplus@gmail.com',
+        password: 'baoloc@123'
+      })
       .subscribe((response: any) => {
+        this.loading = false;
         this._storage.set('token', response.token);
         this._storage.set('user', response.data);
         this._api.token = response.token;
         this._api.user = response.data;
         this._router.navigateByUrl(
-          this.redirectUrl ? this.redirectUrl : '/list-single'
+          this.redirectUrl ? this.redirectUrl : '/list-multiple'
         );
-      });
-  }
-
-  public nextToLogin() {
-    this.welcome = false;
+      }, () => this.loading = false);
   }
 }

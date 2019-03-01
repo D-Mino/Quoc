@@ -14,6 +14,10 @@
   background-size: cover;
   color: white;
 
+  mat-progress-bar {
+    height: 3px;
+  }
+
   .content {
     text-align: center;
   }
