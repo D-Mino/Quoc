@@ -56,6 +56,9 @@ export class ListService {
     });
 
     this.selectComputer(this.computers[0]);
+    this.computers.slice(1).forEach((pc, index) => {
+      this.connect(pc);
+    });
     this.open(
       ScriptDiagramComponent,
       {
@@ -70,7 +73,8 @@ export class ListService {
     this.connect(this.selectedComputer);
   }
 
-  public addIP() {
+  public addIP(e) {
+    e.stopPropagation();
     this.open(AddIpComponent, {
       data: {
         scripts: this.scripts.map(sc => {

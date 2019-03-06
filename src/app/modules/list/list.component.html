@@ -18,6 +18,9 @@
         (click)="_list.selectScript(script)">
         <mat-icon mat-list-icon>view_module</mat-icon>
         <h4 mat-line>{{ script.name }}</h4>
+        <button mat-icon-button matTooltip="Add IP" *ngIf="_list.selectedScript.id === script.id" (click)="_list.addIP($event)">
+          <mat-icon>add</mat-icon>
+        </button>
         <button mat-icon-button matTooltip="Delete" *ngIf="_list.selectedScript.id === script.id" (click)="_list.deleteScript(script, $event)">
           <mat-icon>delete</mat-icon>
         </button>
@@ -29,7 +32,7 @@
     <div class="screen">
       <div class="pc" *ngIf="_list.selectedComputer.id">
         <div class="loading" *ngIf="!_list.selectedComputer.success">
-          <mat-spinner *ngIf="_list.selectedComputer.connecting"></mat-spinner>
+          <img *ngIf="_list.selectedComputer.connecting" src="/assets/img/loading.gif" alt="">
           <h2 class="mat-title" *ngIf="!_list.selectedComputer.connecting && !_list.selectedComputer.disconnect">
             Can not the connect to {{ _list.selectedComputer.ip }}
           </h2>
@@ -62,7 +65,7 @@
   </mat-sidenav-content>
 
   <mat-sidenav class="sidenav" #sidenav mode="side" position="end" opened>
-    <mat-toolbar color="accent">
+    <!-- <mat-toolbar color="accent">
       <mat-toolbar-row>
         <span style="font-size: 16px">Computers</span>
         <span class="toolbar-spacer"></span>
@@ -70,13 +73,49 @@
           <mat-icon>add</mat-icon>
         </button>
       </mat-toolbar-row>
-    </mat-toolbar>
-    <mat-list>
+    </mat-toolbar> -->
+    <!-- <mat-list>
       <mat-list-item *ngFor="let pc of _list.computers" [class.selected]="pc.id === _list.selectedComputer.id" (click)="_list.selectComputer(pc)">
         <mat-icon mat-list-icon>computer</mat-icon>
         <h4 mat-line>{{ pc.name }}</h4>
         <p mat-line> {{ pc.ip }} </p>
       </mat-list-item>
-    </mat-list>
+    </mat-list> -->
+    <div class="small-screen">
+      <div *ngFor="let pc of _list.computers" class="pc" [hidden]="pc.id === _list.selectedComputer.id">
+        <mat-toolbar color="accent">
+          <mat-toolbar-row>
+            <span style="font-size: 16px">{{ pc.ip }}: {{ pc.name }}</span>
+            <span class="toolbar-spacer"></span>
+            <button mat-icon-button class="btn-menu" [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngIf="!pc.fullScreen && _list.computers.length > 1" (click)="_list.selectComputer(pc)">
+                  <mat-icon>zoom_in</mat-icon>
+                  <span>Zoom</span>
+                </button>
+                <button mat-menu-item *ngIf="pc.success" (click)="_list.disconnect(pc)">
+                  <mat-icon>power_settings_new</mat-icon>
+                  <span>Disconnect</span>
+                </button>
+                <button mat-menu-item (click)="_list.delete(pc)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+          </mat-toolbar-row>
+        </mat-toolbar>
+        <div class="loading" *ngIf="!pc.success">
+          <img *ngIf="pc.connecting" src="/assets/img/loading.gif" alt="">
+          <h2 class="mat-title" *ngIf="!pc.connecting && !pc.disconnect">Can not the connect to {{ pc.ip }}</h2>
+          <button mat-raised-button *ngIf="!pc.connecting" color="primary" (click)="_list.reconnect(pc)">
+            {{ pc.disconnect ? 'Connect' : 'Reconnect' }}
+          </button>
+        </div>
+        <iframe [id]="pc.ip" *ngIf="pc.success" [src]="pc.api" frameborder="0">
+        </iframe>
+      </div>
+    </div>
   </mat-sidenav>
 </mat-sidenav-container>
