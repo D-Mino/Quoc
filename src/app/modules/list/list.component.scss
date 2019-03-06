@@ -27,6 +27,10 @@ mat-sidenav-container {
       margin-top: 46px !important;
       height: calc(100% - 46px) !important;
       overflow-y: auto;
+
+      .mr-8 {
+        margin-right: -8px;
+      }
     }
 
     .toolbar-icon {

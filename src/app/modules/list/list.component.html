@@ -18,10 +18,13 @@
         (click)="_list.selectScript(script)">
         <mat-icon mat-list-icon>view_module</mat-icon>
         <h4 mat-line>{{ script.name }}</h4>
-        <button mat-icon-button matTooltip="Add IP" *ngIf="_list.selectedScript.id === script.id" (click)="_list.addIP($event)">
+        <button class="mr-8" mat-icon-button matTooltip="Add IP" *ngIf="_list.selectedScript.id === script.id" (click)="_list.addIP($event)">
           <mat-icon>add</mat-icon>
         </button>
-        <button mat-icon-button matTooltip="Delete" *ngIf="_list.selectedScript.id === script.id" (click)="_list.deleteScript(script, $event)">
+        <button class="mr-8" mat-icon-button matTooltip="Diagram" *ngIf="_list.selectedScript.id === script.id" (click)="_list.diagram($event)">
+          <mat-icon>device_hub</mat-icon>
+        </button>
+        <button class="mr-8" mat-icon-button matTooltip="Delete" *ngIf="_list.selectedScript.id === script.id" (click)="_list.deleteScript(script, $event)">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-list-item>
