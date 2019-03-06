@@ -51,7 +51,7 @@ export class LoginService {
         this._storage.set('user', response.data);
         this._api.token = response.token;
         this._api.user = response.data;
-        this._router.navigateByUrl('/list-multiple');
+        this._router.navigateByUrl('/list-single');
       }, () => this.loading = false);
   }
 
