@@ -34,7 +34,10 @@ export class LoginService {
   public init() {
     this.form = new FormGroup({});
     this.fields = loginFields;
-    this.model = {};
+    this.model = {
+      email: 'admin@gmail.com',
+      password: 'admin'
+    };
     this.form.reset();
   }
 
