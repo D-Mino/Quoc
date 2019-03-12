@@ -11,6 +11,7 @@ import {
 import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
 import { ModulesRouter } from './modules/modules.router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,8 @@ import { ModulesRouter } from './modules/modules.router';
     MatDialogModule,
     ModulesRouter,
     ComponentsModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    HttpClientModule
   ],
   bootstrap: [AppComponent]
 })

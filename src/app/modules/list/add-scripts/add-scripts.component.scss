@@ -1,7 +1,15 @@
 .mat-dialog-content {
-    padding-top: 8px;
-  }
-  
-  .mat-dialog-actions {
-    justify-content: space-between;
-  }
+  padding-top: 8px;
+}
+
+.mat-dialog-actions {
+  justify-content: space-between;
+}
+.editor {
+  position: relative;
+}
+
+:host ::ng-deep .ck-editor__editable {
+  min-height: 100px;
+  margin-bottom: 24px;
+}

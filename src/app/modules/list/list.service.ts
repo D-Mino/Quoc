@@ -126,7 +126,9 @@ export class ListService {
   }
 
   public addscripts() {
-    this.open(AddScriptsComponent, {}, result => {
+    this.open(AddScriptsComponent, {
+      maxWidth: '80%',
+    }, result => {
       if (this.computers.find(c => c.ip === result.ip)) {
         return this._notify.error('The IP address already exists');
       }

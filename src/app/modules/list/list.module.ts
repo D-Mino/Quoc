@@ -10,7 +10,7 @@ import { FormlyCommonsModule } from '../../common/formly/formly.module';
 import { AddIpComponent } from './add-ip/add-ip.component';
 import { AddScriptsComponent } from './add-scripts/add-scripts.component';
 import { ScriptDiagramComponent } from './script-diagram/script-diagram.component';
-
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 @NgModule({
   imports: [
     ComponentsModule,
@@ -18,7 +18,8 @@ import { ScriptDiagramComponent } from './script-diagram/script-diagram.componen
     FormlyCommonsModule,
     CommonModule,
     FormsModule,
-    ListRouter
+    ListRouter,
+    CKEditorModule
   ],
   declarations: [
     ListComponent,

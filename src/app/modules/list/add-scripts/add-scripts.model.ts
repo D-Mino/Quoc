@@ -9,13 +9,5 @@ export const Model: FormlyFieldConfig[] = [
       placeholder: '',
       required: true,
     },
-  },
-  {
-    key: 'description',
-    type: 'textarea',
-    templateOptions: {
-      label: 'Scenario Description',
-      placeholder: 'Scenario Description'
-    },
-  },
+  }
 ];

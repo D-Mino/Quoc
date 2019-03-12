@@ -5,6 +5,10 @@
     <formly-form [form]="form" [fields]="fields" [options]="options" [model]="model">
     </formly-form>
   </form>
+  <div class="editor">
+    <ckeditor id="security" [config]="config" [(ngModel)]="data.security" [editor]="security"></ckeditor>
+    <ckeditor id="attack" [config]="config" [(ngModel)]="data.attack" [editor]="attack"></ckeditor>
+  </div>
 </div>
 <div mat-dialog-actions>
   <button mat-stroked-button mat-dialog-close color="warn">Cancel</button>

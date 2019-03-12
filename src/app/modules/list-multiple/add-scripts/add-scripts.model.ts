@@ -14,8 +14,16 @@ export const Model: FormlyFieldConfig[] = [
     key: 'description',
     type: 'textarea',
     templateOptions: {
-      label: 'Scenario Description',
-      placeholder: 'Scenario Description'
+      label: 'Bên phòng thủ',
+      rows: 3
     },
   },
+  {
+    key: 'attack',
+    type: 'textarea',
+    templateOptions: {
+      label: 'Bên tấn công',
+      rows: 3
+    }
+  }
 ];
