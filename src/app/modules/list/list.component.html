@@ -21,7 +21,7 @@
         <button class="mr-8" mat-icon-button matTooltip="Add IP" *ngIf="_list.selectedScript.id === script.id" (click)="_list.addIP($event)">
           <mat-icon>add</mat-icon>
         </button>
-        <button class="mr-8" mat-icon-button matTooltip="Diagram" *ngIf="_list.selectedScript.id === script.id" (click)="_list.diagram($event)">
+        <button class="mr-8" mat-icon-button matTooltip="Diagram" *ngIf="_list.selectedScript.id === script.id" (click)="_list.diagram($event, script)">
           <mat-icon>device_hub</mat-icon>
         </button>
         <button class="mr-8" mat-icon-button matTooltip="Delete" *ngIf="_list.selectedScript.id === script.id" (click)="_list.deleteScript(script, $event)">

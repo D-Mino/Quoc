@@ -61,7 +61,7 @@ export class AddScriptsComponent implements OnInit, OnDestroy {
     this.model = {};
   }
 
-  show() {
-    console.log(this.data);
+  save() {
+    return { ...this.model, ...this.data };
   }
 }

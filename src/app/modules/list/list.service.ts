@@ -66,12 +66,13 @@ export class ListService {
     this.connect(this.selectedComputer);
   }
 
-  public diagram(e) {
+  public diagram(e, script) {
     e.stopPropagation();
     this.open(
       ScriptDiagramComponent,
       {
-        maxWidth: '70%'
+        maxWidth: '70%',
+        data: script
       },
       () => {}
     );
@@ -134,12 +135,14 @@ export class ListService {
       }
       this._api.post('script/create', {
         name: result.name,
-        description: result.description
+        security: result.security,
+        attack: result.attack
       }).subscribe((response: any) => {
         this.scripts.push({
           id: response.data.id,
           name: result.name,
-          description: result.description,
+          security: result.security,
+          attack: result.attack,
           ip_address: []
         });
       }, err => this._notify.error(err.name));

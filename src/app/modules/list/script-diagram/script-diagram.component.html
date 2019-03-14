@@ -4,8 +4,10 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div mat-dialog-content>
-  <img src="assets/img/diagram.jpg" alt="">
+<div mat-dialog-content class="mat-typography">
+  <h1>{{ script.name }}</h1>
+  <div class="editor" [innerHTML]="script.security | safeHtml"></div>
+  <div class="editor" [innerHTML]="script.attack | safeHtml"></div>
 </div>
 <mat-card-actions>
     <button mat-stroked-button mat-dialog-close color="warn">Cancel</button>
