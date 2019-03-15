@@ -2,7 +2,7 @@
   <app-toolbar></app-toolbar>
 </div>
 
-<mat-sidenav-container class="example-container" [class.full-screen]="isFullScreen">
+<mat-sidenav-container class="example-container">
   <mat-sidenav class="sidenav" #sidenav mode="side" opened>
     <mat-toolbar color="accent">
       <mat-toolbar-row>
@@ -31,34 +31,37 @@
     </mat-list>
   </mat-sidenav>
 
-  <mat-sidenav-content [class.full-screen]="isFullScreen">
+  <mat-sidenav-content>
     <div class="screen">
-      <div class="pc" *ngIf="_list.selectedComputer.id">
-        <div class="loading" *ngIf="!_list.selectedComputer.success">
-          <img *ngIf="_list.selectedComputer.connecting" src="/assets/img/loading.gif" alt="">
-          <h2 class="mat-title" *ngIf="!_list.selectedComputer.connecting && !_list.selectedComputer.disconnect">
-            Can not the connect to {{ _list.selectedComputer.ip }}
+      <div *ngFor="let pc of _list.computers" [class.pc-small]="!pc.fullScreen" [class.pc]="pc.fullScreen">
+        <div class="loading" *ngIf="!pc.success">
+          <img *ngIf="pc.connecting" src="/assets/img/loading.gif" alt="">
+          <h2 class="mat-title" *ngIf="!pc.connecting && !pc.disconnect">
+            Can not the connect to {{ pc.ip }}
           </h2>
-          <button mat-raised-button *ngIf="!_list.selectedComputer.connecting" color="primary" (click)="_list.reconnect(_list.selectedComputer)">
-            {{ _list.selectedComputer.disconnect ? 'Connect' : 'Reconnect' }}
+          <button mat-raised-button *ngIf="!pc.connecting" color="primary" (click)="_list.reconnect(_list.selectedComputer)">
+            {{ pc.disconnect ? 'Connect' : 'Reconnect' }}
           </button>
         </div>
-        <iframe *ngIf="_list.selectedComputer.success" [src]="_list.selectedComputer.api" frameborder="0">
+        <iframe *ngIf="pc.success" [src]="pc.api" frameborder="0">
         </iframe>
         <mat-toolbar color="accent">
           <mat-toolbar-row>
             <mat-icon>person</mat-icon>
             <span style="font-size: 16px; margin-left: 12px">
-              {{ _list.selectedComputer.name }} : {{ _list.selectedComputer.ip }}
+              {{ pc.name }} : {{ pc.ip }}
             </span>
             <span class="toolbar-spacer"></span>
-            <button color="warn" mat-icon-button matTooltip="Stop" *ngIf="_list.selectedComputer.success" (click)="_list.disconnect(_list.selectedComputer)">
+            <button color="warn" mat-icon-button matTooltip="Stop" *ngIf="pc.success" (click)="_list.disconnect(pc)">
               <mat-icon>stop</mat-icon>
             </button>
-            <button mat-icon-button matTooltip="Full Screen" (click)="isFullScreen = !isFullScreen">
-              <mat-icon>{{ isFullScreen ? 'fullscreen_exit': 'fullscreen' }}</mat-icon>
+            <button *ngIf="!pc.fullScreen" mat-icon-button matTooltip="Full Screen" (click)="_list.selectComputer(pc)">
+              <mat-icon>fullscreen</mat-icon>
             </button>
-            <button mat-icon-button matTooltip="Delete" *ngIf="!isFullScreen" (click)="_list.delete(_list.selectedComputer)">
+            <button *ngIf="pc.fullScreen" mat-icon-button matTooltip="Exit Full Screen" (click)="_list.removeFullScreen(pc)">
+                <mat-icon>fullscreen_exit</mat-icon>
+              </button>
+            <button mat-icon-button matTooltip="Delete" *ngIf="!pc.fullScreen" (click)="_list.delete(pc)">
               <mat-icon>delete</mat-icon>
             </button>
           </mat-toolbar-row>
@@ -67,25 +70,9 @@
     </div>
   </mat-sidenav-content>
 
-  <mat-sidenav class="sidenav" #sidenav mode="side" position="end" opened>
-    <!-- <mat-toolbar color="accent">
-      <mat-toolbar-row>
-        <span style="font-size: 16px">Computers</span>
-        <span class="toolbar-spacer"></span>
-        <button mat-icon-button class="toolbar-icon" (click)="_list.addIP()">
-          <mat-icon>add</mat-icon>
-        </button>
-      </mat-toolbar-row>
-    </mat-toolbar> -->
-    <!-- <mat-list>
-      <mat-list-item *ngFor="let pc of _list.computers" [class.selected]="pc.id === _list.selectedComputer.id" (click)="_list.selectComputer(pc)">
-        <mat-icon mat-list-icon>computer</mat-icon>
-        <h4 mat-line>{{ pc.name }}</h4>
-        <p mat-line> {{ pc.ip }} </p>
-      </mat-list-item>
-    </mat-list> -->
+  <mat-sidenav class="sidenav" #sidenav mode="side" position="end" [opened]="_list.selectedComputer && _list.selectedComputer.id">
     <div class="small-screen">
-      <div *ngFor="let pc of _list.computers" class="pc" [hidden]="pc.id === _list.selectedComputer.id">
+      <div *ngFor="let pc of _list.computers" class="pc" [class.selected-pc]="pc.id === _list.selectedComputer.id">
         <mat-toolbar color="accent">
           <mat-toolbar-row>
             <span style="font-size: 16px">{{ pc.ip }}: {{ pc.name }}</span>

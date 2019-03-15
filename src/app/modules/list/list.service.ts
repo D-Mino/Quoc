@@ -55,14 +55,16 @@ export class ListService {
       });
     });
 
-    this.selectComputer(this.computers[0]);
+    // this.selectComputer(this.computers[0]);
     this.computers.slice(1).forEach((pc, index) => {
       this.connect(pc);
     });
   }
 
   public selectComputer(pc) {
-    this.selectedComputer = pc || {};
+    this.removeFullScreen(this.selectedComputer);
+    this.selectedComputer = pc;
+    this.selectedComputer.fullScreen = true;
     this.connect(this.selectedComputer);
   }
 
@@ -211,14 +213,9 @@ export class ListService {
     });
   }
 
-  public removeFullScreen(ip) {
-    this.computers = this.computers.map(c => {
-      if (c.ip !== ip) {
-        c.fullScreen = false;
-      }
-
-      return c;
-    });
+  public removeFullScreen(pc) {
+    this.selectedComputer = {};
+    pc.fullScreen = false;
   }
 
   public isFull() {
