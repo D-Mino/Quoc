@@ -70,7 +70,7 @@
     </div>
   </mat-sidenav-content>
 
-  <mat-sidenav class="sidenav" #sidenav mode="side" position="end" [opened]="_list.selectedComputer && _list.selectedComputer.id">
+  <mat-sidenav class="sidenav" #sidenav mode="side" position="end" [opened]="_list.selectedComputer && _list.selectedComputer.id && _list.computers.length > 1">
     <div class="small-screen">
       <div *ngFor="let pc of _list.computers" class="pc" [class.selected-pc]="pc.id === _list.selectedComputer.id">
         <mat-toolbar color="accent">

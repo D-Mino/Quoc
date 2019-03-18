@@ -40,6 +40,7 @@ export class ListService {
   }
 
   public selectScript(script) {
+    this.selectedComputer = {};
     if (!script.start_time) {
       script.start_time = new Date();
     }
@@ -55,7 +56,10 @@ export class ListService {
       });
     });
 
-    // this.selectComputer(this.computers[0]);
+    if (this.computers.length < 2) {
+      this.selectComputer(this.computers[0]);
+    }
+
     this.computers.slice(1).forEach((pc, index) => {
       this.connect(pc);
     });
