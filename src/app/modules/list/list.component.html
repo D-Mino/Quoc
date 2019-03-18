@@ -31,7 +31,7 @@
     </mat-list>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content id="content" [ngClass]="{'overflow-hide': _list.selectedComputer && _list.selectedComputer.id}">
     <div class="screen">
       <div *ngFor="let pc of _list.computers" [class.pc-small]="!pc.fullScreen" [class.pc]="pc.fullScreen">
         <div class="loading" *ngIf="!pc.success">

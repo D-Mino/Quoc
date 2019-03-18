@@ -64,6 +64,7 @@ mat-sidenav-container {
 
       .selected-pc {
         position: absolute;
+        top: 0;
         z-index: 0;
       }
 
@@ -122,11 +123,9 @@ mat-sidenav-container {
   }
   
   mat-sidenav-content {
-    overflow: hidden;
 
-    &.full-screen {
-      margin: 0 !important;
-      z-index: 9999;
+    &.overflow-hide {
+      overflow: hidden;
     }
 
     img {

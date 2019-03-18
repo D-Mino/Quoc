@@ -62,6 +62,8 @@ export class ListService {
   }
 
   public selectComputer(pc) {
+    const content = document.getElementById('content');
+    content.scrollTop = 0;
     this.removeFullScreen(this.selectedComputer);
     this.selectedComputer = pc;
     this.selectedComputer.fullScreen = true;
