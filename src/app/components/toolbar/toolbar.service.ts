@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-
 import { StorageService } from '@services/storage.service';
 import { DiagramComponent } from './diagram/diagram.component';
 import { SettingComponent } from './setting/setting.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ComputerComponent } from './computer/computer.component';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,10 @@ export class ToolbarService {
   public startTime: Date;
   public time: string;
 
-  constructor(public _storage: StorageService, private _dialog: MatDialog) {
+  constructor(
+    public _storage: StorageService,
+    private _dialog: MatDialog
+  ) {
     this.user = {};
     this.title = 'Hệ Thống Thao Trường Số';
     this.setTime();
@@ -46,6 +49,17 @@ export class ToolbarService {
   public diagram() {
     this.open(
       DiagramComponent,
+      {
+        maxWidth: '70%',
+        minHeight: '300px'
+      },
+      () => {}
+    );
+  }
+
+  public computer() {
+    this.open(
+      ComputerComponent,
       {
         maxWidth: '70%'
       },

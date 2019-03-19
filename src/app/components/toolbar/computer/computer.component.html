@@ -1,0 +1,59 @@
+<div mat-dialog-title>
+  <h1>Computer list</h1>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ip">
+      <th mat-header-cell *matHeaderCellDef> IP </th>
+      <td mat-cell *matCellDef="let element"> {{element.ip}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="system">
+      <th mat-header-cell *matHeaderCellDef> System </th>
+      <td mat-cell *matCellDef="let element"> {{element.system}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="memory">
+      <th mat-header-cell *matHeaderCellDef> Memory </th>
+      <td mat-cell *matCellDef="let element"> {{element.memory}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cpu">
+      <th mat-header-cell *matHeaderCellDef> CPU </th>
+      <td mat-cell *matCellDef="let element"> {{element.cpu}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="deleteScript(element, $event)">
+          <mat-icon aria-label="Delete">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <button class="fixed-bottom" mat-mini-fab color="primary" (click)="addComputer()">
+    <mat-icon aria-label="Add">add</mat-icon>
+  </button>
+</div>
