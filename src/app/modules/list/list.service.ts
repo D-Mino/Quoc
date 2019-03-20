@@ -8,6 +8,7 @@ import { NotificationService } from '@services/notification.service';
 import { AddScriptsComponent } from './add-scripts/add-scripts.component';
 import { ScriptDiagramComponent } from './script-diagram/script-diagram.component';
 import { ToolbarService } from '@components/toolbar/toolbar.service';
+import { AddContentComponent } from './add-content/add-content.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -40,6 +41,10 @@ export class ListService {
   }
 
   public selectScript(script) {
+    if (script.id === this.selectedScript.id) {
+      return;
+    }
+
     this.selectedComputer = {};
     if (!script.start_time) {
       script.start_time = new Date();
@@ -83,6 +88,25 @@ export class ListService {
         data: script
       },
       () => {}
+    );
+  }
+
+  public addOrEditContent(content) {
+    this.open(
+      AddContentComponent,
+      {
+        maxWidth: '70%',
+        data: {
+          title: content ? 'Edit Content' : 'Add Content',
+          content: content || null
+        }
+      },
+      (result) => {
+        if (!this.selectedScript.contents) {
+          this.selectedScript.contents = [];
+        }
+        this.selectedScript.contents.push(result);
+      }
     );
   }
 

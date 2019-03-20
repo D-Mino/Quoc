@@ -73,3 +73,12 @@ mat-dialog-container {
 .staff-names input {
   text-transform: capitalize;
 }
+
+mat-list {
+  .mat-expansion-panel-content {
+    .mat-expansion-panel-body {
+      background-color: #f1f1f1;
+      padding: 8px 24px !important;
+    }
+  }
+}

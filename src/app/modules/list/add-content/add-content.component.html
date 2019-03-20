@@ -1,0 +1,22 @@
+<div mat-dialog-title>
+  <h1>{{ dialog.content ? dialog.content.name : dialog.title }}</h1>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content>
+  <div *ngIf="dialog.content" class="mat-typography">
+    <div class="editor" [innerHTML]="dialog.content.content | safeHtml"></div>
+  </div>
+  <form *ngIf="!dialog.content">
+    <formly-form [form]="form" [fields]="fields" [options]="options" [model]="model">
+    </formly-form>
+  </form>
+  <div *ngIf="!dialog.content" class="mat-typography">
+    <ckeditor [config]="config" [(ngModel)]="data.content" [editor]="content"></ckeditor>
+  </div>
+</div>
+<div *ngIf="!dialog.content" mat-dialog-actions>
+  <button mat-stroked-button mat-dialog-close color="warn">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="!form.valid" [mat-dialog-close]="save()" cdkFocusInitial>Confirm</button>
+</div>

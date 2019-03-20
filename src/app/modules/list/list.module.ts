@@ -11,6 +11,7 @@ import { AddIpComponent } from './add-ip/add-ip.component';
 import { AddScriptsComponent } from './add-scripts/add-scripts.component';
 import { ScriptDiagramComponent } from './script-diagram/script-diagram.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { AddContentComponent } from './add-content/add-content.component';
 @NgModule({
   imports: [
     ComponentsModule,
@@ -25,12 +26,14 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     ListComponent,
     AddIpComponent,
     AddScriptsComponent,
-    ScriptDiagramComponent
+    ScriptDiagramComponent,
+    AddContentComponent
   ],
   entryComponents: [
     AddIpComponent,
     AddScriptsComponent,
-    ScriptDiagramComponent
+    ScriptDiagramComponent,
+    AddContentComponent
   ],
   providers: [ListService]
 })

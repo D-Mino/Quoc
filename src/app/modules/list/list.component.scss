@@ -37,6 +37,18 @@ mat-sidenav-container {
       .mat-expansion-panel-header {
         display: none !important;
       }
+
+      ul {
+        li {
+          cursor: pointer;
+
+          span {
+            &:hover {
+              text-decoration-line: underline;
+            }
+          }
+        }
+      }
     }
 
     .toolbar-icon {

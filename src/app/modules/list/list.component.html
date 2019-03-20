@@ -18,16 +18,43 @@
         (click)="_list.selectScript(script)">
         <mat-icon mat-list-icon>view_module</mat-icon>
         <h4 mat-line>{{ script.name }}</h4>
-        <button class="mr-8" mat-icon-button matTooltip="Add IP" *ngIf="_list.selectedScript.id === script.id" (click)="_list.addIP($event)">
-          <mat-icon>add</mat-icon>
+        <button *ngIf="script.id === _list.selectedScript.id" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
         </button>
-        <button class="mr-8" mat-icon-button matTooltip="Diagram" *ngIf="_list.selectedScript.id === script.id" (click)="_list.diagram($event, script)">
-          <mat-icon>device_hub</mat-icon>
-        </button>
-        <button class="mr-8" mat-icon-button matTooltip="Delete" *ngIf="_list.selectedScript.id === script.id" (click)="_list.deleteScript(script, $event)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </mat-list-item>   
+        <mat-menu #menu="matMenu">
+          <button class="mr-8" mat-menu-item *ngIf="_list.selectedScript.id === script.id" (click)="_list.addOrEditContent()">
+            <mat-icon>add</mat-icon>
+            <span>Add content</span>
+          </button>
+          <button class="mr-8" mat-menu-item *ngIf="_list.selectedScript.id === script.id" (click)="_list.addIP($event)">
+            <mat-icon>computer</mat-icon>
+            <span>Add computer</span>
+          </button>
+          <button class="mr-8" mat-menu-item *ngIf="_list.selectedScript.id === script.id" (click)="_list.diagram($event, script)">
+            <mat-icon>device_hub</mat-icon>
+            <span>View diagram</span>
+          </button>
+          <button class="mr-8" mat-menu-item *ngIf="_list.selectedScript.id === script.id" (click)="_list.deleteScript(script, $event)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </mat-list-item>
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="_list.selectedScript.id === script.id">
+          <mat-expansion-panel-header>
+          </mat-expansion-panel-header>
+          <div>
+            <ul>
+              <li *ngFor="let content of (script.contents || [])" (click)="_list.addOrEditContent(content)">
+                - <span>{{ content.name }}</span>
+              </li>
+              <li *ngIf="(script.contents || []).length === 0" (click)="_list.addOrEditContent()"><span>New...</span></li>
+            </ul>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      
     </mat-list>
   </mat-sidenav>
 
