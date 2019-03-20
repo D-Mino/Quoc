@@ -49,7 +49,7 @@ export class ComputerComponent implements OnInit {
 
   public getList() {
     this._api.get('diagram').subscribe(response => {
-      this.computers = response;
+      this.computers = response.data;
       this.dataSource.data = this.computers;
     });
   }
@@ -62,7 +62,7 @@ export class ComputerComponent implements OnInit {
       },
       (result) => {
         this._api.post('diagram', result).subscribe(response => {
-          this.computers.push(response);
+          this.computers.push(response['data']);
           this.dataSource.data = this.computers;
         });
       }
