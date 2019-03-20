@@ -40,12 +40,19 @@ mat-sidenav-container {
 
       ul {
         li {
-          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
 
           span {
+            cursor: pointer;
             &:hover {
               text-decoration-line: underline;
             }
+          }
+
+          i {
+            color: red;
+            cursor: pointer;
           }
         }
       }

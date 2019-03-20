@@ -1,6 +1,6 @@
 const hostname = window.location.hostname;
 
-const local = 'https://motell.baoloc.fun/api';
+const local = 'http://172.16.100.3/~vnc/public/api';
 const test = 'https://motell.baoloc.fun/api';
 const live = 'https://motell.baoloc.fun/api';
 

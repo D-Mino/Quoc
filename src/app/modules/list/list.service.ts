@@ -102,12 +102,24 @@ export class ListService {
         }
       },
       (result) => {
-        if (!this.selectedScript.contents) {
-          this.selectedScript.contents = [];
-        }
-        this.selectedScript.contents.push(result);
+        this._api.post('script/content/' + this.selectedScript.id, result)
+          .subscribe(response => {
+            if (!this.selectedScript.contents) {
+              this.selectedScript.contents = [];
+            }
+            this.selectedScript.contents.push(result);
+          });
       }
     );
+  }
+
+  public deleteContent(content) {
+    this.open(DialogComponent, {}, result => {
+      this._api.delete('script/content/' + content.id).subscribe(response => {
+        this.selectedScript.contents = this.selectedScript.contents
+          .filter(c => c.id !== content.id);
+      });
+    });
   }
 
   public addIP(e) {

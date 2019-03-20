@@ -46,10 +46,13 @@
           </mat-expansion-panel-header>
           <div>
             <ul>
-              <li *ngFor="let content of (script.contents || [])" (click)="_list.addOrEditContent(content)">
-                - <span>{{ content.name }}</span>
+              <li *ngFor="let content of (script.contents || [])">
+                <span (click)="_list.addOrEditContent(content)">- {{ content.name }}</span>
+                <i (click)="_list.deleteContent(content)">x</i>
               </li>
-              <li *ngIf="(script.contents || []).length === 0" (click)="_list.addOrEditContent()"><span>New...</span></li>
+              <li *ngIf="(script.contents || []).length === 0">
+                <span (click)="_list.addOrEditContent()">New...</span>
+              </li>
             </ul>
           </div>
         </mat-expansion-panel>
