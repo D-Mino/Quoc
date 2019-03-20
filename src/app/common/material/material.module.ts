@@ -21,7 +21,8 @@ import {
   MatSidenavModule,
   MatProgressSpinnerModule,
   MatTooltipModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatExpansionModule
 } from '@angular/material';
 
 @NgModule({
@@ -47,7 +48,8 @@ import {
     MatToolbarModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatExpansionModule
   ]
 })
 export class MaterialCommonsModule {}

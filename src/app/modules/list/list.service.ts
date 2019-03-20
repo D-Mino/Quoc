@@ -186,6 +186,10 @@ export class ListService {
     );
   }
 
+  public openNewTab(pc) {
+    window.open(`http://${pc.ip}:${pc.port}`);
+  }
+
   public disconnect(pc) {
     pc.success = false;
     pc.connecting = false;

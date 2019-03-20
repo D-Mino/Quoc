@@ -24,12 +24,18 @@ mat-sidenav-container {
     }
 
     mat-list {
-      margin-top: 46px !important;
-      height: calc(100% - 46px) !important;
       overflow-y: auto;
+      
+      &.mt-46 {
+        margin-top: 46px !important;
+      }
 
       .mr-8 {
         margin-right: -8px;
+      }
+
+      .mat-expansion-panel-header {
+        display: none !important;
       }
     }
 

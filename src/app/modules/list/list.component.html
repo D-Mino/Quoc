@@ -13,8 +13,8 @@
         </button>
       </mat-toolbar-row>
     </mat-toolbar>
-    <mat-list>
-      <mat-list-item *ngFor="let script of _list.scripts" [class.selected]="script.id === _list.selectedScript.id"
+    <mat-list *ngFor="let script of _list.scripts; let i=index" [ngClass]="{'mt-46': i === 0}">
+      <mat-list-item [class.selected]="script.id === _list.selectedScript.id"
         (click)="_list.selectScript(script)">
         <mat-icon mat-list-icon>view_module</mat-icon>
         <h4 mat-line>{{ script.name }}</h4>
@@ -27,7 +27,7 @@
         <button class="mr-8" mat-icon-button matTooltip="Delete" *ngIf="_list.selectedScript.id === script.id" (click)="_list.deleteScript(script, $event)">
           <mat-icon>delete</mat-icon>
         </button>
-      </mat-list-item>
+      </mat-list-item>   
     </mat-list>
   </mat-sidenav>
 
@@ -54,6 +54,9 @@
             <span class="toolbar-spacer"></span>
             <button color="warn" mat-icon-button matTooltip="Stop" *ngIf="pc.success" (click)="_list.disconnect(pc)">
               <mat-icon>stop</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="New Tab" (click)="_list.openNewTab(pc)">
+              <mat-icon>add</mat-icon>
             </button>
             <button *ngIf="!pc.fullScreen" mat-icon-button matTooltip="Full Screen" (click)="_list.selectComputer(pc)">
               <mat-icon>fullscreen</mat-icon>
