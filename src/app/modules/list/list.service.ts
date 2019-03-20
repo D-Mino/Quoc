@@ -35,8 +35,7 @@ export class ListService {
     this.computers = [];
     this._api.get('script/all').subscribe(response => {
       this.scripts = response.data;
-      this.selectedScript = this.scripts[0];
-      this.selectScript(this.selectedScript);
+      this.selectScript(this.scripts[0]);
     });
   }
 
