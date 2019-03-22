@@ -61,7 +61,9 @@ mat-paginator {
 
 mat-dialog-container {
   .mat-dialog-title {
-    margin-bottom: 0.75rem;
+    margin: -24px -24px 0 !important;
+    padding: 8px 16px;
+    background-color: #cccccc;
   }
 
   .mat-dialog-actions {
@@ -77,7 +79,8 @@ mat-dialog-container {
 mat-list {
   .mat-expansion-panel-content {
     .mat-expansion-panel-body {
-      background-color: #f1f1f1;
+      background-color: #1c1c1c;
+      color: white;
       padding: 8px 24px !important;
     }
   }
@@ -86,5 +89,12 @@ mat-list {
 ul {
   &.ck {
     padding: 0 !important;
+  }
+}
+
+.mat-header-row {
+  th {
+    color: black;
+    font-size: 14px;
   }
 }
